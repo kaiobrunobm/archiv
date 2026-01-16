@@ -1,6 +1,18 @@
 {
   "extends": ["expo", "prettier"],
   "plugins": ["@typescript-eslint", "unused-imports", "prettier"],
+  "overrides": [
+    {
+      "files": ["*.cjs", "*.config.js"],
+      "env": {
+        "node": true
+      },
+      "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "script"
+      }
+    }
+  ],
   "rules": {
     "no-console": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
