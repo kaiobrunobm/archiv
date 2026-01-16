@@ -57,11 +57,9 @@ const Button = ({
   icon,
   ...props
 }: ButtonProps) => {
-  // 1. Shared Values for Opacity
   const contentOpacity = useSharedValue(1);
   const spinnerOpacity = useSharedValue(0);
 
-  // 2. Trigger animation when 'loading' changes
   useEffect(() => {
     if (loading) {
       contentOpacity.value = withTiming(0, { duration: 200 });
@@ -72,24 +70,23 @@ const Button = ({
     }
   }, [loading]);
 
-  // 3. Animated Styles
   const contentStyle = useAnimatedStyle(() => ({
     opacity: contentOpacity.value
   }));
 
   const spinnerStyle = useAnimatedStyle(() => ({
     opacity: spinnerOpacity.value,
-    transform: [{ scale: spinnerOpacity.value }] // Optional: slight zoom in for spinner
+    transform: [{ scale: spinnerOpacity.value }]
   }));
 
   const getSpinnerColor = () => {
     switch (variant) {
       case 'google':
-        return '#050A10'; // Dark
+        return '#050A10';
       case 'ghost':
-        return '#FF7043'; // Brand (Matches your text-brand)
+        return '#FF7043';
       default:
-        return '#F0EFF4'; // Light (Brand, Apple, Danger)
+        return '#F0EFF4';
     }
   };
 
@@ -99,16 +96,13 @@ const Button = ({
       disabled={loading || props.disabled}
       {...props}
     >
-      {/* 4. The Spinner (Absolute Positioned to stay centered) */}
       <Animated.View
         style={[spinnerStyle, { position: 'absolute' }]}
-        pointerEvents='none' // Clicks pass through to button
+        pointerEvents='none'
       >
         <ActivityIndicator size='small' color={getSpinnerColor()} />
       </Animated.View>
 
-      {/* 5. The Content (Text + Icon) */}
-      {/* We keep this in the DOM even when loading to preserve width/height */}
       <Animated.View
         className='flex-row items-center gap-3'
         style={contentStyle}
