@@ -53,7 +53,7 @@ module.exports = {
         },
         input: {
           DEFAULT: '#F6F5F8',
-          error: '#EF233C'
+          error: '#F8E6E5'
         }
       }
     }
