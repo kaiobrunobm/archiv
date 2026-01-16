@@ -1,5 +1,9 @@
 {
   "name": "archiv",
+  "author": "kaiobrunobm <bmkaiobruno@gmail.com>",
+  "license": "MIT",
+  "description": "Basic, minimal and functional note tacking mobile app." ,
+  "type": "module",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
