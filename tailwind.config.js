@@ -12,6 +12,7 @@ module.exports = {
         sutle: '#606062',
         ligthSutle: '#908F92',
         info: '#3482F0',
+        danger: '#EF233C',
         surface: {
           light: '#F6F5F8'
         },
@@ -26,8 +27,7 @@ module.exports = {
         },
         button: {
           brand: '#FF7043',
-          'brand-pressed': '#FF531F',
-          'brand-disable': '#F8E6E5',
+          brandDisable: '#F8E6E5',
 
           apple: '#050A10',
           'apple-pressed': '#606062',

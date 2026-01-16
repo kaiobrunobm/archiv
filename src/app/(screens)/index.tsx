@@ -1,9 +1,22 @@
-import { Text, View } from 'react-native';
+import Button from '@/src/components/Button';
+import GoogleIcon from '@/src/components/GoogleIcon';
+import { useState } from 'react';
+import { View } from 'react-native';
+
 export default function Index() {
-  const some = 'somehting';
+  const [isLoading, setLoading] = useState(false);
+
   return (
-    <View className='flex-1 items-center justify-center'>
-      <Text className='text-brand text-2xl font-bold'>Hello world!</Text>
+    <View className='bg-light flex-1 items-center justify-center gap-2 p-4'>
+      <Button
+        onPress={() => setLoading(true)}
+        disabled={isLoading}
+        loading={isLoading}
+        label='Continue with Google'
+        variant='google'
+        className='w-full'
+        icon={<GoogleIcon />}
+      />
     </View>
   );
 }
