@@ -9,25 +9,38 @@ import Animated, {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export const ScaleButton = ({ style, disabled, ...props }: PressableProps) => {
+interface ScaleButtonProps extends PressableProps {
+  pressEffect?: 'scale' | 'none';
+}
+
+export const ScaleButton = ({
+  style,
+  disabled,
+  pressEffect = 'scale',
+  ...props
+}: ScaleButtonProps) => {
   const scale = useSharedValue(1);
   const opacity = useSharedValue(1);
 
   const springConfig = { damping: 10, stiffness: 300, mass: 0.5 };
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value
-  }));
+  const animatedStyle = useAnimatedStyle(() => {
+    if (pressEffect === 'none') return {};
+
+    return {
+      transform: [{ scale: scale.value }],
+      opacity: opacity.value
+    };
+  });
 
   const handlePressIn = () => {
-    if (disabled) return;
+    if (disabled || pressEffect === 'none') return;
     scale.value = withSpring(0.96, springConfig);
-    opacity.value = withTiming(0.8, { duration: 100 });
+    opacity.value = withTiming(0.9, { duration: 100 });
   };
 
   const handlePressOut = () => {
-    if (disabled) return;
+    if (disabled || pressEffect === 'none') return;
     scale.value = withSpring(1, springConfig);
     opacity.value = withTiming(1, { duration: 100 });
   };
