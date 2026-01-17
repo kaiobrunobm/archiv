@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       fontFamily: {
         poppins: ['Poppins'], 
+        'poppins-semibold': ['Poppins-SemiBold', 'sans-serif'],
+        'poppins-bold': ['Poppins-Bold', 'sans-serif'],
         roboto: ['Roboto'],
+        'roboto-semibold': ['Roboto-Semibold', 'sans-serif'],
         bbhBartle: ['BBHSans']
       },
       colors: {
