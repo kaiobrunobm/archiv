@@ -5,6 +5,11 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ['Poppins'], 
+        roboto: ['Roboto'],
+        bbhBartle: ['BBHSans']
+      },
       colors: {
         brand: '#FF7043',
         light: '#F0EFF4',

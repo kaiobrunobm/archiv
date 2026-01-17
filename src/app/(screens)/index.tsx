@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-// Assuming you use Lucide Icons or similar
+import { Text, View } from 'react-native';
 
 export default function EditorScreen() {
-  const [isBold, setIsBold] = useState(false);
-  const [password, setPassword] = useState('');
-  const [search, setSearch] = useState('');
-  const [email, setEmail] = useState('');
-
-  return <View className='bg-background flex-1 px-6 pt-12'></View>;
+  return (
+    <View className='flex-1 items-center justify-center'>
+      <Text className='font-bbhBartle'>EditorScreen</Text>
+    </View>
+  );
 }
