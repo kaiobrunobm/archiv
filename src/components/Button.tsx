@@ -28,11 +28,11 @@ const buttonVariants = cva(
   }
 );
 
-const textVariants = cva('text-base font-semibold text-center', {
+const textVariants = cva('text-base font-poppins-semibold text-center', {
   variants: {
     variant: {
       brand: 'text-light',
-      google: 'text-dark font-bold',
+      google: 'text-dark',
       apple: 'text-light',
       ghost: 'text-brand',
       danger: 'text-danger'
@@ -107,7 +107,7 @@ const Button = ({
         className='flex-row items-center gap-3'
         style={contentStyle}
       >
-        {icon && <View>{icon}</View>}
+        {icon && <View className='h-8 w-8 items-center justify-center'>{icon}</View>}
         <Text className={cn(textVariants({ variant }))}>{label}</Text>
       </Animated.View>
     </ScaleButton>
