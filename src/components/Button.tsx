@@ -28,7 +28,7 @@ const buttonVariants = cva(
   }
 );
 
-const textVariants = cva('text-base font-poppins-semibold text-center', {
+const textVariants = cva('text-base font-poppins-semibold text-center py-1.5', {
   variants: {
     variant: {
       brand: 'text-light',
