@@ -1,0 +1,45 @@
+import {
+  BBHSansBartle_400Regular
+} from '@expo-google-fonts/bbh-sans-bartle';
+import {
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  useFonts,
+} from '@expo-google-fonts/poppins';
+import {
+  RobotoCondensed_400Regular,
+  RobotoCondensed_500Medium,
+  RobotoCondensed_600SemiBold,
+  RobotoCondensed_700Bold,
+} from '@expo-google-fonts/roboto-condensed';
+import { Slot } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
+
+import '@/global.css';
+
+SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  const [loaded, error] = useFonts({
+  Poppins: Poppins_400Regular,
+  'Poppins-Medium': Poppins_500Medium,
+  'Poppins-SemiBold': Poppins_600SemiBold,
+  Roboto: RobotoCondensed_400Regular,
+  'Roboto-Medium': RobotoCondensed_500Medium,
+  'Roboto-SemiBold': RobotoCondensed_600SemiBold,
+  'Roboto-Bold': RobotoCondensed_700Bold,
+  BBHSans: BBHSansBartle_400Regular
+  });
+
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
+
+  if (!loaded && !error) return null;
+
+  return <Slot />;
+}
