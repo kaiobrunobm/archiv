@@ -60,7 +60,7 @@ export default function WelcomeScreen() {
 
           <View className="flex-row items-center">
             <Text className="text-lightSutle text-sm font-poppins">Already have an account? </Text>
-            <TouchableOpacity onPress={() => navigation.push('/signin')}>
+            <TouchableOpacity onPress={() => navigation.push('/login')}>
               <Text className="text-brand font-poppins-semibold text-base">Log in</Text>
             </TouchableOpacity>
           </View>

@@ -13,9 +13,10 @@ import {
   RobotoCondensed_600SemiBold,
   RobotoCondensed_700Bold,
 } from '@expo-google-fonts/roboto-condensed';
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import '@/global.css';
 
@@ -28,7 +29,7 @@ export default function RootLayout() {
   'Poppins-SemiBold': Poppins_600SemiBold,
   Roboto: RobotoCondensed_400Regular,
   'Roboto-Medium': RobotoCondensed_500Medium,
-  'Roboto-Semibold': RobotoCondensed_600SemiBold,
+  'Roboto-semibold': RobotoCondensed_600SemiBold,
   'Roboto-Bold': RobotoCondensed_700Bold,
   BBHSans: BBHSansBartle_400Regular
   });
@@ -41,5 +42,9 @@ export default function RootLayout() {
 
   if (!loaded && !error) return null;
 
-  return <Slot />;
+  return (
+    <GestureHandlerRootView className='flex-1'>
+      <Stack  screenOptions={{headerShown: false}}/>;
+    </GestureHandlerRootView>
+  )
 }
