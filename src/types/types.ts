@@ -32,3 +32,11 @@ export interface NoteContainerProps {
   onArchive?: () => void;
   onDelete?: () => void;
 }
+
+export type Note = {
+  id: string;
+  title: string;
+  noteBrief: string;
+  folder: string;
+  updatedAt: Date;
+};
