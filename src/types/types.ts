@@ -19,3 +19,16 @@ export interface InputProps extends TextInputProps {
   RightIcon?: React.FC<IconProps>;
   onRightIconPress?: () => void;
 }
+
+type NoteVariant = 'alone' | 'top' | 'middle' | 'bottom';
+
+export interface NoteContainerProps {
+  title: string;
+  excerpt: string;
+  folderName: string;
+  timestamp: string;
+  variant?: NoteVariant;
+  onPress?: () => void;
+  onArchive?: () => void;
+  onDelete?: () => void;
+}

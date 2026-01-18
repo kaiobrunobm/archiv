@@ -1,6 +1,6 @@
 import Input from '@/src/components/Input';
 import { EnvelopeIcon, LockIcon } from 'phosphor-react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -12,8 +12,19 @@ import MainLogo from '@/src/components/MainLogo';
 import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigation = useRouter();
+
+  const handleLogin = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      navigation.push('/mainDashboard');
+    }, 2000);
+  };
+
+ 
 
   return (
     <SafeAreaView className="flex-1 bg-light px-5 pt-16 pb-4">
@@ -58,6 +69,10 @@ export default function LoginScreen() {
             <Button 
               variant="brand" 
               label="Login" 
+              disabled={isLoading}
+              loading={isLoading}
+              onPress={handleLogin}
+
             />
           </View>
 
@@ -81,9 +96,9 @@ export default function LoginScreen() {
             <View className="flex-1">
               <Button 
                 variant="google" 
-                label="Google" 
+                label="Google"
                 icon={<GoogleLogo size={20} />} 
-              />
+                              />
             </View>
           </View>
 
