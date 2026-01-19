@@ -6,9 +6,10 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
+  Keyboard,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
@@ -17,9 +18,10 @@ import {
 import Animated, {
   Easing,
   interpolate,
+  useAnimatedKeyboard,
   useAnimatedStyle,
   useSharedValue,
-  withTiming
+  withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -33,10 +35,10 @@ import getNoteVariant from "@/src/utils/getNoteVariant";
 
 
 export default function DashboardScreen() {
+  const [searchValue, setSearchValue] = useState('')
 	const isOpen = useSharedValue(0);
+  const keyboard = useAnimatedKeyboard();
 
-
-  
 
 	const toggleMenu = () => {
 		const target = isOpen.value === 0 ? 1 : 0;
@@ -79,6 +81,12 @@ export default function DashboardScreen() {
 		});
 	};
 
+  const translateStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: -keyboard.height.value }],
+    };
+  });
+
 	const newNoteStyle = useMenuItemStyle(1);
 	const newFolderStyle = useMenuItemStyle(0);
   const groupedNotes = useGroupedNotes(); 
@@ -86,7 +94,7 @@ export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
 
 	return (
-		<View className="flex-1 bg-light">
+		<TouchableWithoutFeedback className="flex-1 bg-light" onPress={Keyboard.dismiss}>
 			<View style={{ paddingTop: insets.top }}>
 				<ScrollView
 					contentContainerStyle={{ paddingBottom: 50 + insets.bottom}}
@@ -174,7 +182,9 @@ export default function DashboardScreen() {
 					/>
 				</TouchableWithoutFeedback>
 
-				<View className="absolute bottom-0 left-0 right-0 z-50" style={{paddingBottom: insets.bottom - 20}}>
+				<Animated.View 
+        className="absolute bottom-0 left-0 right-0 z-50" 
+        style={[{paddingBottom: insets.bottom - 20}, translateStyle]}>
 
 					<LinearGradient
 						colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
@@ -224,6 +234,8 @@ export default function DashboardScreen() {
 							<Input
 								type="search"
 								LeftIcon={MagnifyingGlassIcon}
+                value={searchValue}
+                onChangeText={setSearchValue}
 								placeholder="Search"
                 className="rounded-full py-3 px-6 shadow-md"
 							/>
@@ -239,8 +251,8 @@ export default function DashboardScreen() {
 							</Animated.View>
 						</IconButton>
 					</View>
-				</View>
+				</Animated.View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 }
