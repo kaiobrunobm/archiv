@@ -21,7 +21,7 @@ import Animated, {
   useSharedValue,
   withTiming
 } from "react-native-reanimated";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useGroupedNotes } from "@/src/components/GroupedNotes";
 import { IconButton } from "@/src/components/IconButton";
@@ -83,12 +83,13 @@ export default function DashboardScreen() {
 	const newFolderStyle = useMenuItemStyle(0);
   const groupedNotes = useGroupedNotes(); 
   const { deleteNote, notes } = useNotes();
+  const insets = useSafeAreaInsets();
 
 	return (
 		<View className="flex-1 bg-light">
-			<SafeAreaView className="flex-1">
+			<View style={{ paddingTop: insets.top }}>
 				<ScrollView
-					contentContainerStyle={{ paddingBottom: 50 }}
+					contentContainerStyle={{ paddingBottom: 50 + insets.bottom}}
 					showsVerticalScrollIndicator={false}
 				>
 					<View className="px-5 pt-2 mb-4 mt-4">
@@ -173,7 +174,7 @@ export default function DashboardScreen() {
 					/>
 				</TouchableWithoutFeedback>
 
-				<View className="absolute bottom-0 left-0 right-0 z-50">
+				<View className="absolute bottom-0 left-0 right-0 z-50" style={{paddingBottom: insets.bottom - 20}}>
 
 					<LinearGradient
 						colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
@@ -182,7 +183,7 @@ export default function DashboardScreen() {
 						pointerEvents="none"
 					/>
 
-					<View className="absolute right-[24px] bottom-32 items-end gap-8 pointer-events-box-none">
+					<View className="absolute right-[24px] bottom-32 items-end gap-8 pointer-events-box-none" style={{paddingBottom: insets.bottom }}>
 
 						<Animated.View
 							style={[
@@ -190,7 +191,7 @@ export default function DashboardScreen() {
 								{ flexDirection: "row", alignItems: "center" },
 							]}
 						>
-							<View  className="mr-4">
+							<View  className="mr-4 bg-light rounded-2xl px-5 py-2">
 								<Text className="font-poppins-semibold text-dark">
 									New Note
 								</Text>
@@ -206,7 +207,7 @@ export default function DashboardScreen() {
 								{ flexDirection: "row", alignItems: "center" },
 							]}
 						>
-							<View className="mr-4">
+							<View className="mr-4 bg-light rounded-2xl px-5 py-2">
 								<Text className="font-poppins-semibold text-dark">
 									New Folder
 								</Text>
@@ -224,22 +225,22 @@ export default function DashboardScreen() {
 								type="search"
 								LeftIcon={MagnifyingGlassIcon}
 								placeholder="Search"
-                className="rounded-full py-3"
+                className="rounded-full py-3 px-6 shadow-md"
 							/>
 						</View>
 
 
 						<IconButton
 							onPress={toggleMenu}
-							className="h-16 w-16 bg-surface-light rounded-full shadow-lg shadow-black/10 items-center justify-center"
+							className="h-16 w-16 bg-brand rounded-full shadow-md   items-center justify-center"
 						>
 							<Animated.View style={fabIconStyle}>
-								<PlusIcon size={32} color='#FF7043' weight="regular" />
+								<PlusIcon size={32} color='#fff' weight="regular" />
 							</Animated.View>
 						</IconButton>
 					</View>
 				</View>
-			</SafeAreaView>
+			</View>
 		</View>
 	);
 }
