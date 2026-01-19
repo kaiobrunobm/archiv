@@ -1,5 +1,5 @@
 import { cn } from '@/src/utils/utils';
-import { cva, type VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import Animated, {
@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
+import { ButtonType } from '../types/types';
 import { ScaleButton } from './ScaleButton';
 
 const buttonVariants = cva(
@@ -19,6 +20,7 @@ const buttonVariants = cva(
           'bg-surface-light border border-border-light active:bg-gray-100',
         apple: 'bg-dark',
         ghost: 'bg-transparent active:bg-button-brandDisable',
+        drawer: `bg-transparent justify-start active:bg-button-brandDisable`,
         danger: 'bg-button-danger'
       }
     },
@@ -35,19 +37,11 @@ const textVariants = cva('text-base font-poppins-semibold text-center py-1.5', {
       google: 'text-dark',
       apple: 'text-light',
       ghost: 'text-brand',
+      drawer: 'text-dark',
       danger: 'text-danger'
     }
   }
 });
-
-interface ButtonProps
-  extends
-    React.ComponentProps<typeof ScaleButton>,
-    VariantProps<typeof buttonVariants> {
-  label: string;
-  loading?: boolean;
-  icon?: React.ReactNode;
-}
 
 const Button = ({
   label,
@@ -55,8 +49,9 @@ const Button = ({
   className,
   loading,
   icon,
+  active,
   ...props
-}: ButtonProps) => {
+}: ButtonType) => {
   const contentOpacity = useSharedValue(1);
   const spinnerOpacity = useSharedValue(0);
 
@@ -92,7 +87,10 @@ const Button = ({
 
   return (
     <ScaleButton
-      className={cn(buttonVariants({ variant, className }))}
+      className={cn(
+        buttonVariants({ variant, className }),
+        active ? "bg-button-tab-active" : ""
+      )}
       disabled={loading || props.disabled}
       {...props}
     >
