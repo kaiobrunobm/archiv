@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import '@/global.css';
+import NotesProvider from '@/src/utils/NotesProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,7 +45,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView className='flex-1'>
-      <Stack  screenOptions={{headerShown: false}}/>;
+      <NotesProvider>      
+        <Stack  screenOptions={{headerShown: false}}/> 
+      </NotesProvider>
     </GestureHandlerRootView>
-  )
+     )
 }
