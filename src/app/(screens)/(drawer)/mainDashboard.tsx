@@ -32,12 +32,20 @@ import NoteContainer from "@/src/components/NoteContainer";
 import { Note } from "@/src/types/types";
 import { useNotes } from "@/src/utils/NotesProvider";
 import getNoteVariant from "@/src/utils/getNoteVariant";
+import { DrawerActions } from "@react-navigation/native";
+import { useNavigation } from "expo-router";
 
 
 export default function DashboardScreen() {
   const [searchValue, setSearchValue] = useState('')
 	const isOpen = useSharedValue(0);
   const keyboard = useAnimatedKeyboard();
+  const navigation = useNavigation();
+
+
+  const toggleDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
 
 
 	const toggleMenu = () => {
@@ -103,7 +111,7 @@ export default function DashboardScreen() {
 					<View className="px-5 pt-2 mb-4 mt-4">
 
 						<View className="flex-row justify-between items-center mb-6">
-							<IconButton variant="elevated" className="p-8">
+							<IconButton variant="elevated" className="p-8" onPress={toggleDrawer}>
 								<DotsThreeIcon size={28} color="#606062" weight="bold" />
 							</IconButton>
 
