@@ -1,15 +1,15 @@
 import { IconProps } from 'phosphor-react-native';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { PressableProps, TextInputProps } from 'react-native';
 
-type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost';
+type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost' | 'drawer';
 
 export interface ButtonType extends PressableProps {
   label: string;
   variant?: ButtonVariant;
   loading?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
+  icon?: ReactNode;
+  active?: boolean;
 }
 
 export interface InputProps extends TextInputProps {

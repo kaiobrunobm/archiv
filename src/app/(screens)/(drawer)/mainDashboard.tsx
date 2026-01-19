@@ -6,7 +6,7 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -32,12 +32,43 @@ import NoteContainer from "@/src/components/NoteContainer";
 import { Note } from "@/src/types/types";
 import { useNotes } from "@/src/utils/NotesProvider";
 import getNoteVariant from "@/src/utils/getNoteVariant";
+import { DrawerActions } from "@react-navigation/native";
+import { useNavigation, useRouter } from "expo-router";
 
 
 export default function DashboardScreen() {
   const [searchValue, setSearchValue] = useState('')
 	const isOpen = useSharedValue(0);
   const keyboard = useAnimatedKeyboard();
+  const navigation = useNavigation();
+  const route = useRouter();
+  
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+ useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+
+  const toggleDrawer = () => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  };
 
 
 	const toggleMenu = () => {
@@ -83,7 +114,7 @@ export default function DashboardScreen() {
 
   const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboard.height.value }],
+      transform: [{ translateY: -keyboard.height.value + 20 }],
     };
   });
 
@@ -103,7 +134,7 @@ export default function DashboardScreen() {
 					<View className="px-5 pt-2 mb-4 mt-4">
 
 						<View className="flex-row justify-between items-center mb-6">
-							<IconButton variant="elevated" className="p-8">
+							<IconButton variant="elevated" className="p-8" onPress={toggleDrawer}>
 								<DotsThreeIcon size={28} color="#606062" weight="bold" />
 							</IconButton>
 
@@ -184,7 +215,7 @@ export default function DashboardScreen() {
 
 				<Animated.View 
         className="absolute bottom-0 left-0 right-0 z-50" 
-        style={[{paddingBottom: insets.bottom - 20}, translateStyle]}>
+        style={[{paddingBottom: !isKeyboardVisible ? insets.bottom : 0}, translateStyle]}>
 
 					<LinearGradient
 						colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
@@ -206,7 +237,14 @@ export default function DashboardScreen() {
 									New Note
 								</Text>
 							</View>
-							<IconButton variant="elevated" className="p-7">
+							<IconButton
+								variant="elevated"
+								className="p-7"
+								onPress={() => {
+									toggleMenu();
+									route.push('/textEditor')
+                }}
+							>
 								<NoteIcon size={24} color="#FF7043" />
 							</IconButton>
 						</Animated.View>

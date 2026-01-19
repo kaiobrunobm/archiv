@@ -114,7 +114,7 @@ const Input: React.FC<InputProps> = ({
         placeholderTextColor={error ? COLORS.error : COLORS.placeholder}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`flex-1 text-base font-medium ${getTextColorClass()} `}
+        className={`flex-1 text-base font-medium  ${getTextColorClass()} `}
         style={{ includeFontPadding: false }}
       />
       <View className='ml-2'>{renderRightIcon()}</View>
