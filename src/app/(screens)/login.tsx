@@ -105,7 +105,7 @@ export default function LoginScreen() {
           {/* Footer */}
           <View className="flex-row justify-center items-center pb-4">
             <Text className="text-lightSutle font-poppins text-sm">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
             </Text>
             <TouchableOpacity  onPress={() => navigation.push('/')}>
               <Text className="text-brand font-poppins-semibold text-sm">

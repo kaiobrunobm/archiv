@@ -19,6 +19,7 @@ import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import '@/global.css';
+import NotesProvider from '@/src/utils/NotesProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -29,7 +30,7 @@ export default function RootLayout() {
   'Poppins-SemiBold': Poppins_600SemiBold,
   Roboto: RobotoCondensed_400Regular,
   'Roboto-Medium': RobotoCondensed_500Medium,
-  'Roboto-semibold': RobotoCondensed_600SemiBold,
+  'Roboto-Semibold': RobotoCondensed_600SemiBold,
   'Roboto-Bold': RobotoCondensed_700Bold,
   BBHSans: BBHSansBartle_400Regular
   });
@@ -44,7 +45,9 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView className='flex-1'>
-      <Stack  screenOptions={{headerShown: false}}/>;
+      <NotesProvider>      
+        <Stack  screenOptions={{headerShown: false}}/> 
+      </NotesProvider>
     </GestureHandlerRootView>
-  )
+     )
 }
