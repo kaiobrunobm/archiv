@@ -6,14 +6,14 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Image,
   Keyboard,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 import Animated, {
   Easing,
@@ -25,13 +25,16 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import ActionSheet from "@/src/components/ActionSheet";
 import { useGroupedNotes } from "@/src/components/GroupedNotes";
 import { IconButton } from "@/src/components/IconButton";
 import Input from "@/src/components/Input";
 import NoteContainer from "@/src/components/NoteContainer";
+import { ScaleButton } from "@/src/components/ScaleButton";
 import { Note } from "@/src/types/types";
 import { useNotes } from "@/src/utils/NotesProvider";
 import getNoteVariant from "@/src/utils/getNoteVariant";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation, useRouter } from "expo-router";
 
@@ -42,6 +45,7 @@ export default function DashboardScreen() {
   const keyboard = useAnimatedKeyboard();
   const navigation = useNavigation();
   const route = useRouter();
+  const sheetRef = useRef<BottomSheet>(null);
   
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -138,14 +142,15 @@ export default function DashboardScreen() {
 								<DotsThreeIcon size={28} color="#606062" weight="bold" />
 							</IconButton>
 
-							<View className="h-16 w-16 rounded-full p-0.5 overflow-hidden border-2 border-brand ">
+							<ScaleButton className="h-16 w-16 rounded-full p-0.5 overflow-hidden border-2 border-brand "  onPress={() => route.push('/settings')}>
 								<Image
 									source={{
 										uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
 									}}
 									className="h-full w-full rounded-full"
 								/>
-							</View>
+							</ScaleButton>
+  
 
 						</View>
 
@@ -260,7 +265,11 @@ export default function DashboardScreen() {
 									New Folder
 								</Text>
 							</View>
-							<IconButton variant="elevated" className="p-7">
+							<IconButton variant="elevated" className="p-7" 
+              onPress={() => {
+                sheetRef.current?.expand()
+                toggleMenu();
+              }}>
 								<FolderIcon size={24} color="#FF7043" />
 							</IconButton>
 						</Animated.View>
@@ -290,7 +299,19 @@ export default function DashboardScreen() {
 						</IconButton>
 					</View>
 				</Animated.View>
+        <View style={{ zIndex: 100, position: 'absolute', width: '100%', height: '100%', pointerEvents: 'box-none', bottom: 0 }}>
+        <ActionSheet
+        ref={sheetRef} 
+        title="Create new folder"
+        snapPoints={['50%']} 
+        >
+        <Text>New Folder</Text> 
+
+      </ActionSheet> 
+        </View>
+      
 			</View>
+      
 		</TouchableWithoutFeedback>
 	);
 }
