@@ -33,7 +33,7 @@ import { Note } from "@/src/types/types";
 import { useNotes } from "@/src/utils/NotesProvider";
 import getNoteVariant from "@/src/utils/getNoteVariant";
 import { DrawerActions } from "@react-navigation/native";
-import { useNavigation } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 
 
 export default function DashboardScreen() {
@@ -41,6 +41,7 @@ export default function DashboardScreen() {
 	const isOpen = useSharedValue(0);
   const keyboard = useAnimatedKeyboard();
   const navigation = useNavigation();
+  const route = useRouter();
 
 
   const toggleDrawer = () => {
@@ -214,7 +215,14 @@ export default function DashboardScreen() {
 									New Note
 								</Text>
 							</View>
-							<IconButton variant="elevated" className="p-7">
+							<IconButton
+								variant="elevated"
+								className="p-7"
+								onPress={() => {
+									toggleMenu();
+									route.push('/textEditor')
+                }}
+							>
 								<NoteIcon size={24} color="#FF7043" />
 							</IconButton>
 						</Animated.View>
