@@ -13,11 +13,13 @@ import {
   RobotoCondensed_600SemiBold,
   RobotoCondensed_700Bold,
 } from '@expo-google-fonts/roboto-condensed';
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import '@/global.css';
+import NotesProvider from '@/src/utils/NotesProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,5 +43,11 @@ export default function RootLayout() {
 
   if (!loaded && !error) return null;
 
-  return <Slot />;
+  return (
+    <GestureHandlerRootView className='flex-1'>
+      <NotesProvider>      
+        <Stack  screenOptions={{headerShown: false}}/> 
+      </NotesProvider>
+    </GestureHandlerRootView>
+     )
 }

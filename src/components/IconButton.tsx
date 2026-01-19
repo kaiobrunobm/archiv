@@ -10,7 +10,7 @@ const iconButtonVariants = cva(
     variants: {
       variant: {
         action: 'bg-transparent',
-        elevated: 'bg-surface-light active:bg-transparent'
+        elevated: 'bg-surface-light'
       },
       active: {
         true: 'bg-button-tab-active',

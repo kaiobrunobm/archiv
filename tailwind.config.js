@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  // NOTE: Update this to include the paths to all files that contain Nativewind classes.
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
@@ -8,7 +7,6 @@ module.exports = {
       fontFamily: {
         poppins: ['Poppins'], 
         'poppins-semibold': ['Poppins-SemiBold', 'sans-serif'],
-        'poppins-bold': ['Poppins-Bold', 'sans-serif'],
         roboto: ['Roboto'],
         'roboto-semibold': ['Roboto-Semibold', 'sans-serif'],
         bbhBartle: ['BBHSans']
@@ -18,7 +16,7 @@ module.exports = {
         light: '#F0EFF4',
         dark: '#050A10',
         sutle: '#606062',
-        ligthSutle: '#908F92',
+        lightSutle: '#908F92',
         info: '#3482F0',
         danger: '#EF233C',
         surface: {
@@ -66,5 +64,6 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [
+  ]
 };
