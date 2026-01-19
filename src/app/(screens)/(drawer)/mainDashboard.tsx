@@ -6,7 +6,7 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -42,6 +42,28 @@ export default function DashboardScreen() {
   const keyboard = useAnimatedKeyboard();
   const navigation = useNavigation();
   const route = useRouter();
+  
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+ useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      }
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
 
   const toggleDrawer = () => {
@@ -92,7 +114,7 @@ export default function DashboardScreen() {
 
   const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -keyboard.height.value }],
+      transform: [{ translateY: -keyboard.height.value + 20 }],
     };
   });
 
@@ -193,7 +215,7 @@ export default function DashboardScreen() {
 
 				<Animated.View 
         className="absolute bottom-0 left-0 right-0 z-50" 
-        style={[{paddingBottom: insets.bottom - 20}, translateStyle]}>
+        style={[{paddingBottom: !isKeyboardVisible ? insets.bottom : 0}, translateStyle]}>
 
 					<LinearGradient
 						colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
