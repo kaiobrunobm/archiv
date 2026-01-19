@@ -6,9 +6,10 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
+  Keyboard,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
@@ -34,8 +35,10 @@ import getNoteVariant from "@/src/utils/getNoteVariant";
 
 
 export default function DashboardScreen() {
+  const [searchValue, setSearchValue] = useState('')
 	const isOpen = useSharedValue(0);
   const keyboard = useAnimatedKeyboard();
+
 
 	const toggleMenu = () => {
 		const target = isOpen.value === 0 ? 1 : 0;
@@ -91,7 +94,7 @@ export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
 
 	return (
-		<View className="flex-1 bg-light">
+		<TouchableWithoutFeedback className="flex-1 bg-light" onPress={Keyboard.dismiss}>
 			<View style={{ paddingTop: insets.top }}>
 				<ScrollView
 					contentContainerStyle={{ paddingBottom: 50 + insets.bottom}}
@@ -231,6 +234,8 @@ export default function DashboardScreen() {
 							<Input
 								type="search"
 								LeftIcon={MagnifyingGlassIcon}
+                value={searchValue}
+                onChangeText={setSearchValue}
 								placeholder="Search"
                 className="rounded-full py-3 px-6 shadow-md"
 							/>
@@ -248,6 +253,6 @@ export default function DashboardScreen() {
 					</View>
 				</Animated.View>
 			</View>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 }
