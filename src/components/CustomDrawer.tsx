@@ -1,4 +1,5 @@
 // src/components/CustomDrawerContent.tsx
+import BottomSheet from '@gorhom/bottom-sheet';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { usePathname, useRouter } from 'expo-router';
 import {
@@ -8,7 +9,8 @@ import {
   PlusIcon,
   TrashIcon
 } from 'phosphor-react-native';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { useRef } from 'react';
+import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Button from './Button';
 import MainLogo from './MainLogo';
@@ -19,6 +21,7 @@ export default function CustomDrawerContent(props: any) {
   const { top } = useSafeAreaInsets();
 
   const isActive = (path: string) => pathname === path;
+  const sheetRef = useRef<BottomSheet>(null);
 
   return (
     <View className="flex-1 bg-light p-5" style={{ paddingTop: top }}>
@@ -52,6 +55,7 @@ export default function CustomDrawerContent(props: any) {
             label='Create new folder'
             variant='ghost'
             icon={<PlusIcon color='#FF7043'/>}
+            onPress={() => sheetRef.current?.expand()}
           />
           
         </View>
@@ -79,39 +83,5 @@ export default function CustomDrawerContent(props: any) {
       </DrawerContentScrollView>
 
     </View>
-  );
-}
-
-function DrawerButton({ 
-  label, 
-  icon: Icon, 
-  active, 
-  onPress,
-  isDestructive = false
-}: { 
-  label: string; 
-  icon: any; 
-  active?: boolean; 
-  onPress: () => void;
-  isDestructive?: boolean;
-}) {
-  return (
-    <TouchableOpacity 
-      onPress={onPress}
-      className={`flex-row items-center p-3.5 rounded-xl mb-1 ${
-        active ? 'bg-brand/10' : 'active:bg-gray-50'
-      }`}
-    >
-      <Icon 
-        size={22} 
-        color={isDestructive ? '#EF4444' : (active ? '#6D28D9' : '#6B7280')} // Adjust #6D28D9 to your 'brand' color
-        weight={active ? 'fill' : 'regular'}
-      />
-      <Text className={`ml-3 font-poppins-medium text-base ${
-        isDestructive ? 'text-red-500' : (active ? 'text-brand' : 'text-gray-600')
-      }`}>
-        {label}
-      </Text>
-    </TouchableOpacity>
   );
 }
