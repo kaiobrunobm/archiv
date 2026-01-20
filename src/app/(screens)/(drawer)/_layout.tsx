@@ -10,9 +10,9 @@ export default function DrawerLayout() {
         screenOptions={{
           headerShown: false,
           drawerStyle: {
-            width: '85%', // Width of the drawer
+            width: '85%', 
           },
-          swipeEdgeWidth: 100, // Easier to swipe open
+          swipeEdgeWidth: 100, 
         }}
       >
         <Drawer.Screen name="mainDashboard" />

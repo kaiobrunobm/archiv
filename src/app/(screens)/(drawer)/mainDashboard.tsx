@@ -1,4 +1,3 @@
-import { LinearGradient } from "expo-linear-gradient";
 import {
   DotsThreeIcon,
   FolderIcon,
@@ -6,7 +5,8 @@ import {
   NoteIcon,
   PlusIcon
 } from "phosphor-react-native";
-import React, { useEffect, useRef, useState } from "react";
+
+
 import {
   Image,
   Keyboard,
@@ -15,6 +15,7 @@ import {
   TouchableWithoutFeedback,
   View
 } from "react-native";
+
 import Animated, {
   Easing,
   interpolate,
@@ -23,7 +24,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 
 import ActionSheet from "@/src/components/ActionSheet";
 import { useGroupedNotes } from "@/src/components/GroupedNotes";
@@ -36,18 +37,24 @@ import { useNotes } from "@/src/utils/NotesProvider";
 import getNoteVariant from "@/src/utils/getNoteVariant";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { DrawerActions } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation, useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 
 export default function DashboardScreen() {
   const [searchValue, setSearchValue] = useState('')
-	const isOpen = useSharedValue(0);
-  const keyboard = useAnimatedKeyboard();
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const sheetRef = useRef<BottomSheet>(null);
+
+	const isFloatButtonOpen = useSharedValue(0);
   const navigation = useNavigation();
   const route = useRouter();
-  const sheetRef = useRef<BottomSheet>(null);
   
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const keyboard = useAnimatedKeyboard();
+
+  
 
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -76,42 +83,42 @@ export default function DashboardScreen() {
 
 
 	const toggleMenu = () => {
-		const target = isOpen.value === 0 ? 1 : 0;
+		const target = isFloatButtonOpen.value === 0 ? 1 : 0;
 
 		const config = {
 			duration: 200,
 			easing: Easing.out(Easing.quad), 
 		};
 
-		isOpen.value = withTiming(target, config);
+		isFloatButtonOpen.value = withTiming(target, config);
 	};
 
 	const fabIconStyle = useAnimatedStyle(() => {
 		return {
 			transform: [
-				{ rotate: `${interpolate(isOpen.value, [0, 1], [0, 45])}deg` },
+				{ rotate: `${interpolate(isFloatButtonOpen.value, [0, 1], [0, 45])}deg` },
 			],
 		};
 	});	
 
 	const backdropStyle = useAnimatedStyle(() => {
 		return {
-			opacity: interpolate(isOpen.value, [0, 1], [0, 0.3]),
-			pointerEvents: isOpen.value > 0.1 ? "auto" : "none",
+			opacity: interpolate(isFloatButtonOpen.value, [0, 1], [0, 0.3]),
+			pointerEvents: isFloatButtonOpen.value > 0.1 ? "auto" : "none",
 		};
 	});
 
 	const useMenuItemStyle = (index: number) => {
 		return useAnimatedStyle(() => {
 
-			const translateY = interpolate(isOpen.value, [0, 1], [15, 0]);
+			const translateY = interpolate(isFloatButtonOpen.value, [0, 1], [15, 0]);
 
-			const opacity = interpolate(isOpen.value, [0, 1], [0, 1]);
+			const opacity = interpolate(isFloatButtonOpen.value, [0, 1], [0, 1]);
 
 			return {
 				opacity,
 				transform: [{ translateY }],
-				pointerEvents: isOpen.value > 0.8 ? "auto" : "none",
+				pointerEvents: isFloatButtonOpen.value > 0.8 ? "auto" : "none",
 			};
 		});
 	};
