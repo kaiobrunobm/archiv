@@ -57,22 +57,28 @@ export default function WelcomeScreen() {
     <SafeAreaView className="flex-1 bg-light px-5" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom}}>
       <View className="flex-1 flex-col justify-between">
         
-        <View>
+        <View className='gap-5'>
+
           <MainLogo/>
 
-          <View className="flex-row items-end flex-wrap mt-2.5">
-            <Text className=" text-dark font-roboto-semibold text-3xl">
-              {TEXTS.TITLE_PREFIX}
-            </Text>
+          <View>
 
-            <Text className=" text-brand font-bbhBartle text-xl">
-              {TEXTS.APP_NAME}
-            </Text>
-          </View>
+            <View className="flex-row items-end flex-wrap">
+              <Text className=" text-dark font-roboto-semibold text-3xl">
+                {TEXTS.TITLE_PREFIX}
+              </Text>
+
+              <Text className=" text-brand font-bbhBartle text-xl">
+                {TEXTS.APP_NAME}
+              </Text>
+            </View>
 
           <Text className="text-sutle font-poppins">
             {TEXTS.SUBTITLE}
           </Text>
+
+        </View>
+      
         </View>
 
         <View className="w-full gap-3">
@@ -88,6 +94,7 @@ export default function WelcomeScreen() {
         </View>
 
         <View className="items-center gap-10">
+
           <Text className="text-center text-lightSutle text-xs font-poppins">
           {TEXTS.LEGAL}
           </Text>
