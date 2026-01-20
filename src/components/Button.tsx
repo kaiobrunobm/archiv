@@ -1,7 +1,7 @@
 import { cn } from '@/src/utils/utils';
 import { cva } from 'class-variance-authority';
 import React, { useEffect } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -20,12 +20,12 @@ const SPINNER_COLORS: Record<NonNullable<ButtonType['variant']>, string> = {
 };
 
 const buttonVariants = cva(
-  'flex-row items-center justify-center rounded-2xl px-6 py-4 gap-3 disabled:opacity-50',
+  'flex-row items-center justify-center rounded-2xl px-6 py-5 gap-3',
   {
     variants: {
       variant: {
         brand: 'bg-brand',
-        google: 'bg-surface-light border border-border-light active:bg-gray-100',
+        google: 'bg-surface-light border border-border-light',
         apple: 'bg-dark',
         ghost: 'bg-transparent active:bg-button-brandDisable',
         drawer: 'bg-transparent justify-start active:bg-button-brandDisable',
@@ -38,7 +38,7 @@ const buttonVariants = cva(
   }
 );
 
-const textVariants = cva('text-base font-poppins-semibold text-center py-1.5', {
+const textVariants = cva('text-base font-poppins-semibold', {
   variants: {
     variant: {
       brand: 'text-light',
@@ -66,7 +66,6 @@ const Button = ({
   const spinnerOpacity = useSharedValue(0);
 
   useEffect(() => {
-    // Manager Note: Simplified boolean logic
     contentOpacity.value = withTiming(loading ? 0 : 1, { duration: 200 });
     spinnerOpacity.value = withTiming(loading ? 1 : 0, { duration: 200 });
   }, [loading]);
@@ -82,13 +81,12 @@ const Button = ({
 
   return (
     <ScaleButton
-      // Manager Note: Passing pressEffect allows disabling animation for specific lists/drawers
       pressEffect={pressEffect} 
       className={cn(
         buttonVariants({ variant, className }),
-        active && "bg-button-tab-active"
+        active && "bg-button-tab-active",
       )}
-      disabled={loading || disabled}
+      disabled={loading}
       {...props}
     >
       <Animated.View
@@ -99,10 +97,10 @@ const Button = ({
       </Animated.View>
 
       <Animated.View
-        className='flex-row items-center gap-3'
+        className='flex-row items-center gap-3 h-8 justify-between'
         style={contentStyle}
       >
-        {icon && <View className='h-8 w-8 items-center justify-center'>{icon}</View>}
+        {icon}
         <Text className={cn(textVariants({ variant }))}>{label}</Text>
       </Animated.View>
     </ScaleButton>
