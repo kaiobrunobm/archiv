@@ -10,17 +10,25 @@ import Animated, {
 import { ButtonType } from '../types/types';
 import { ScaleButton } from './ScaleButton';
 
+const SPINNER_COLORS: Record<NonNullable<ButtonType['variant']>, string> = {
+  brand: '#F0EFF4',
+  google: '#050A10',
+  apple: '#F0EFF4',
+  ghost: '#FF7043',
+  drawer: '#050A10',
+  danger: '#F0EFF4',
+};
+
 const buttonVariants = cva(
   'flex-row items-center justify-center rounded-2xl px-6 py-4 gap-3 disabled:opacity-50',
   {
     variants: {
       variant: {
         brand: 'bg-brand',
-        google:
-          'bg-surface-light border border-border-light active:bg-gray-100',
+        google: 'bg-surface-light border border-border-light active:bg-gray-100',
         apple: 'bg-dark',
         ghost: 'bg-transparent active:bg-button-brandDisable',
-        drawer: `bg-transparent justify-start active:bg-button-brandDisable`,
+        drawer: 'bg-transparent justify-start active:bg-button-brandDisable',
         danger: 'bg-button-danger'
       }
     },
@@ -45,24 +53,22 @@ const textVariants = cva('text-base font-poppins-semibold text-center py-1.5', {
 
 const Button = ({
   label,
-  variant,
+  variant = 'brand',
   className,
-  loading,
+  loading = false,
   icon,
   active,
+  pressEffect = 'scale',
+  disabled,
   ...props
 }: ButtonType) => {
   const contentOpacity = useSharedValue(1);
   const spinnerOpacity = useSharedValue(0);
 
   useEffect(() => {
-    if (loading) {
-      contentOpacity.value = withTiming(0, { duration: 200 });
-      spinnerOpacity.value = withTiming(1, { duration: 200 });
-    } else {
-      contentOpacity.value = withTiming(1, { duration: 200 });
-      spinnerOpacity.value = withTiming(0, { duration: 200 });
-    }
+    // Manager Note: Simplified boolean logic
+    contentOpacity.value = withTiming(loading ? 0 : 1, { duration: 200 });
+    spinnerOpacity.value = withTiming(loading ? 1 : 0, { duration: 200 });
   }, [loading]);
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -74,31 +80,22 @@ const Button = ({
     transform: [{ scale: spinnerOpacity.value }]
   }));
 
-  const getSpinnerColor = () => {
-    switch (variant) {
-      case 'google':
-        return '#050A10';
-      case 'ghost':
-        return '#FF7043';
-      default:
-        return '#F0EFF4';
-    }
-  };
-
   return (
     <ScaleButton
+      // Manager Note: Passing pressEffect allows disabling animation for specific lists/drawers
+      pressEffect={pressEffect} 
       className={cn(
         buttonVariants({ variant, className }),
-        active ? "bg-button-tab-active" : ""
+        active && "bg-button-tab-active"
       )}
-      disabled={loading || props.disabled}
+      disabled={loading || disabled}
       {...props}
     >
       <Animated.View
         style={[spinnerStyle, { position: 'absolute' }]}
         pointerEvents='none'
       >
-        <ActivityIndicator size='small' color={getSpinnerColor()} />
+        <ActivityIndicator size='small' color={SPINNER_COLORS[variant]} />
       </Animated.View>
 
       <Animated.View
