@@ -102,7 +102,7 @@ export default function WelcomeScreen() {
           <View className="flex-row items-center">
             <Text className="text-lightSutle text-sm font-poppins">{TEXTS.LOGIN_PROMPT}</Text>
             <TouchableOpacity 
-              onPress={() => navigation.push('/login')}
+              onPress={() => navigation.replace('/login')}
               accessibilityRole="button"
               accessibilityLabel="Go to Login"
             >
