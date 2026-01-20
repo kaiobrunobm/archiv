@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-// Components
 import AppleLogo from '@/src/components/AppleIcon';
 import Button from '@/src/components/Button';
 import GoogleLogo from '@/src/components/GoogleIcon';
@@ -13,7 +12,6 @@ import { useRouter } from 'expo-router';
 
 export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false)
-
   const navigation = useRouter();
 
   const handleLogin = () => {
@@ -23,8 +21,6 @@ export default function LoginScreen() {
       navigation.push('/mainDashboard');
     }, 2000);
   };
-
- 
 
   return (
     <SafeAreaView className="flex-1 bg-light px-5 pt-16 pb-4">
@@ -102,7 +98,6 @@ export default function LoginScreen() {
             </View>
           </View>
 
-          {/* Footer */}
           <View className="flex-row justify-center items-center pb-4">
             <Text className="text-lightSutle font-poppins text-sm">
               Don&apos;t have an account?{' '}
