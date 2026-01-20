@@ -41,11 +41,15 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [onError, setOnError] = useState(false);
+  const [errorMessages, setErrorMessages] = useState('');
   
 
   const handleLogin = async () => {
     if (!email || !password) {
-      console.warn("Please fill in all fields");
+      setOnError(true);
+      setTimeout(() => setOnError(false), 5000);
+      setErrorMessages(TEXTS.ERROR_EMPTY_FIELDS);
       return;
     }
 
@@ -90,6 +94,7 @@ export default function LoginScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}
+                error={onError}
                 onChangeText={setEmail}
               />
 
@@ -99,6 +104,7 @@ export default function LoginScreen() {
                   placeholder={TEXTS.PLACEHOLDER_PASSWORD}
                   LeftIcon={LockIcon}
                   value={password}
+                  error={onError}
                   onChangeText={setPassword}
                 />
               </View>

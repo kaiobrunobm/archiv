@@ -1,16 +1,18 @@
 import { EyeIcon, EyeSlashIcon, XCircleIcon } from 'phosphor-react-native';
-import React, { useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { InputProps } from '../types/types';
+import { cn } from '../utils/utils';
 
+// Theme constants
 const COLORS = {
   placeholder: '#C0BFC3',
-  activeBorder: '#908F92',
   error: '#EF233C',
-  textDefault: '#1F1F1F'
-};
+  activeBorder: '#908F92',
+  transparent: 'transparent',
+} as const;
 
-const Input: React.FC<InputProps> = ({
+const Input = forwardRef<TextInput, InputProps>(({
   type = 'text',
   error = false,
   LeftIcon,
@@ -21,71 +23,69 @@ const Input: React.FC<InputProps> = ({
   editable = true,
   className,
   ...props
-}) => {
+}, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
+  const handleFocus = useCallback(() => setIsFocused(true), []);
+  const handleBlur = useCallback(() => setIsFocused(false), []);
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(prev => !prev);
-  };
+  const togglePasswordVisibility = useCallback(() => {
+    setIsPasswordVisible((prev) => !prev);
+  }, []);
 
-  const handleClearSearch = () => {
-    if (onChangeText) {
-      onChangeText('');
-    }
-  };
+  const handleClearSearch = useCallback(() => {
+    onChangeText?.('');
+  }, [onChangeText]);
 
-  const getBorderColorClass = () => {
-    if (error) return 'border-danger border-2';
-    if (isFocused) return 'border-border-light border-2';
-    return 'border-transparent border';
-  };
+  const containerClasses = useMemo(() => cn(
+    "w-full flex-row items-center justify-center rounded-2xl px-4 py-3.5 border",
+    error ? "bg-input-error" : "bg-surface-light",
+    !editable && "opacity-80",
 
-  const getBgColorClass = () => {
-    if (error) return 'bg-input-error';
-    return 'bg-surface-light';
-  };
+    error ? "border-danger border-2" 
+      : isFocused ? "border-border-light border-2" 
+      : "border-transparent",
+    className
+  ), [error, isFocused, editable, className]);
 
-  const getIconColor = () => {
-    if (error) return COLORS.error;
-    if (!editable) return COLORS.placeholder;
-    return COLORS.placeholder;
-  };
+  const textColorClass = useMemo(() => cn(
+    "flex-1 text-base font-medium",
+    error && "text-danger",
+    !editable && "text-dark",
+    !error && editable && "text-subtle"
+  ), [error, editable]);
 
-  const getTextColorClass = () => {
-    if (error) return 'text-danger';
-    if (!editable) return 'text-dark';
-    return 'text-subtle';
-  };
+  const iconColor = error ? COLORS.error : COLORS.placeholder;
+  const isSecure = type === 'password' && !isPasswordVisible;
 
   const renderRightIcon = () => {
-    const iconColor = getIconColor();
-    const iconSize = 24;
 
     if (type === 'password') {
       const IconComponent = isPasswordVisible ? EyeIcon : EyeSlashIcon;
       return (
-        <Pressable onPress={togglePasswordVisibility}>
-          <IconComponent color={iconColor} size={iconSize} />
+        <Pressable onPress={togglePasswordVisibility} hitSlop={8}>
+          <IconComponent color={iconColor} size={24} />
         </Pressable>
       );
     }
 
     if (type === 'search' && value && value.length > 0) {
       return (
-        <Pressable onPress={handleClearSearch}>
-          <XCircleIcon color={iconColor} size={iconSize} weight='fill' />
+        <Pressable onPress={handleClearSearch} hitSlop={8}>
+          <XCircleIcon color={iconColor} size={24} weight="fill" />
         </Pressable>
       );
     }
 
     if (RightIcon) {
       return (
-        <Pressable onPress={onRightIconPress} disabled={!onRightIconPress}>
-          <RightIcon color={iconColor} size={iconSize} />
+        <Pressable 
+          onPress={onRightIconPress} 
+          disabled={!onRightIconPress}
+          hitSlop={8}
+        >
+          <RightIcon color={iconColor} size={24} />
         </Pressable>
       );
     }
@@ -93,19 +93,16 @@ const Input: React.FC<InputProps> = ({
     return null;
   };
 
-  const isSecure = type === 'password' && !isPasswordVisible;
-
   return (
-    <View
-      className={`w-full flex-row items-center justify-center rounded-2xl px-4 py-3.5 ${getBgColorClass()} ${getBorderColorClass()} ${!editable ? 'opacity-80' : ''} ${className} `}
-    >
+    <View className={containerClasses}>
       {LeftIcon && (
-        <View className='mr-2'>
-          <LeftIcon color={getIconColor()} size={24} />
+        <View className="h-8 w-8 mr-2 items-center justify-center">
+          <LeftIcon color={iconColor} size={24} />
         </View>
       )}
 
       <TextInput
+        ref={ref}
         {...props}
         value={value}
         onChangeText={onChangeText}
@@ -114,12 +111,17 @@ const Input: React.FC<InputProps> = ({
         placeholderTextColor={error ? COLORS.error : COLORS.placeholder}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`flex-1 text-base font-medium  ${getTextColorClass()} `}
-        style={{ includeFontPadding: false }}
+        className={textColorClass}
+        style={{ includeFontPadding: false }} 
       />
-      <View className='ml-2'>{renderRightIcon()}</View>
+
+      <View className="ml-2">
+        {renderRightIcon()}
+      </View>
     </View>
   );
-};
+});
+
+Input.displayName = 'Input';
 
 export default Input;
