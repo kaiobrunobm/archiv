@@ -23,13 +23,8 @@ const Input: React.FC<InputProps> = ({
   const [focused, setFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const isPassword = type === 'password';
-  const isSearch = type === 'search';
-
-  const secureTextEntry = isPassword && !passwordVisible;
-
   const renderRightIcon = () => {
-    if (isPassword) {
+    if (type === 'password') {
       return (
         <Pressable onPress={() => setPasswordVisible(v => !v)}>
           {
@@ -51,7 +46,7 @@ const Input: React.FC<InputProps> = ({
       );
     }
 
-    if (isSearch && value) {
+    if (type === 'search' && value) {
       return (
         <Pressable onPress={() => onChangeText?.('')}>
           <XCircleIcon
@@ -83,15 +78,15 @@ const Input: React.FC<InputProps> = ({
   return (
     <View
       className={`
-        w-full flex-row items-center rounded-2xl px-4 py-3.5
+        w-full flex-row items-center rounded-2xl px-4 py-4 gap-2
         ${focused ? 'border-border-light border-2 bg-surface-light' : 'border-transparent border-2'}
         ${error ? 'border-danger border-2 bg-input-error' : 'bg-surface-light'}
-        ${!editable ? 'opacity-80' : ''}
+        ${!editable && 'bg-transparent'}
         ${className}
       `}
     >
       {LeftIcon && (
-        <View className="mr-2">
+        <View>
           <LeftIcon
             size={24}
             color={error ? colors.danger : colors.lightSutle}
@@ -104,7 +99,7 @@ const Input: React.FC<InputProps> = ({
         value={value}
         editable={editable}
         onChangeText={onChangeText}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={type === 'password' && !passwordVisible}
         placeholderTextColor={
           error ? colors.danger : colors.lightSutle
         }
@@ -118,7 +113,7 @@ const Input: React.FC<InputProps> = ({
         style={{ includeFontPadding: false }}
       />
 
-      <View className="ml-2">{renderRightIcon()}</View>
+      <View>{renderRightIcon()}</View>
     </View>
   );
 };
