@@ -43,10 +43,16 @@ export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [onError, setOnError] = useState(false);
 
+  const [errorMessages, setErrorMessages] = useState('');
+  
+
+
   const handleLogin = async () => {
     if (!email || !password) {
       setOnError(true);
       setTimeout(() => setOnError(false), 5000);
+      
+      
       return;
     }
 
@@ -95,6 +101,7 @@ export default function LoginScreen() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 value={email}
+                error={onError}
                 onChangeText={setEmail}
                 error={onError}
               />

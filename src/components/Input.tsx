@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { colors } from '../theme/nativewind';
 import { InputProps } from '../types/types';
+import { cn } from '../utils/utils';
 
 const Input: React.FC<InputProps> = ({
   type = 'text',
@@ -95,6 +96,7 @@ const Input: React.FC<InputProps> = ({
       )}
 
       <TextInput
+        ref={ref}
         {...props}
         value={value}
         editable={editable}
@@ -116,6 +118,8 @@ const Input: React.FC<InputProps> = ({
       <View>{renderRightIcon()}</View>
     </View>
   );
-};
+});
+
+Input.displayName = 'Input';
 
 export default Input;
