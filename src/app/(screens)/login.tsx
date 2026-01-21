@@ -41,11 +41,12 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+  const [onError, setOnError] = useState(false);
 
   const handleLogin = async () => {
     if (!email || !password) {
-      console.warn("Please fill in all fields");
+      setOnError(true);
+      setTimeout(() => setOnError(false), 5000);
       return;
     }
 
@@ -53,6 +54,7 @@ export default function LoginScreen() {
 
     setTimeout(() => {
       setIsLoading(false);
+      
       router.replace('/mainDashboard'); 
     }, 2000);
   };
@@ -94,6 +96,7 @@ export default function LoginScreen() {
                 autoCapitalize="none"
                 value={email}
                 onChangeText={setEmail}
+                error={onError}
               />
 
               <Input
@@ -101,6 +104,7 @@ export default function LoginScreen() {
                 placeholder={TEXTS.PLACEHOLDER_PASSWORD}
                 LeftIcon={LockIcon}
                 value={password}
+                error={onError}
                 onChangeText={setPassword}
               />
               
@@ -122,7 +126,7 @@ export default function LoginScreen() {
               />
             
               </View>
-              
+
               <View className="flex-row items-center">
                 <View className="flex-1 h-[1px] bg-border-light" />
                   <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">

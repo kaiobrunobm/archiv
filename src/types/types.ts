@@ -26,13 +26,21 @@ export interface AuthOption {
   action: () => void;
 }
 
+type InputVariant = 'text' | 'password' | 'search';
+
 export interface InputProps extends TextInputProps {
-  type?: 'text' | 'password' | 'search';
+  type?: InputVariant;
   error?: boolean;
   LeftIcon?: React.FC<IconProps>;
   RightIcon?: React.FC<IconProps>;
   onRightIconPress?: () => void;
 }
+
+export type InputVisualState = {
+  container: string;
+  text: string;
+  iconColor: string;
+};
 
 type NoteVariant = 'alone' | 'top' | 'middle' | 'bottom';
 
