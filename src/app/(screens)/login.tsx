@@ -66,9 +66,9 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-light px-5" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom}}>
+    <SafeAreaView className="flex-1 bg-light" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom}}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View className="flex-1 flex-col justify-between gap-4">
+          <View className="flex-1 flex-col justify-between px-5">
 
             <View className='gap-5'>
               <MainLogo />
@@ -83,7 +83,10 @@ export default function LoginScreen() {
               </View>       
             </View>
 
-            <View className="w-full gap-4">
+            <View className="w-full gap-6">
+
+              <View className='gap-3 w-full '>
+
               <Input 
                 placeholder={TEXTS.PLACEHOLDER_EMAIL}
                 LeftIcon={EnvelopeIcon}
@@ -93,16 +96,14 @@ export default function LoginScreen() {
                 onChangeText={setEmail}
               />
 
-              <View>
-                <Input
-                  type='password'
-                  placeholder={TEXTS.PLACEHOLDER_PASSWORD}
-                  LeftIcon={LockIcon}
-                  value={password}
-                  onChangeText={setPassword}
-                />
-              </View>
-
+              <Input
+                type='password'
+                placeholder={TEXTS.PLACEHOLDER_PASSWORD}
+                LeftIcon={LockIcon}
+                value={password}
+                onChangeText={setPassword}
+              />
+              
               <TouchableOpacity 
                 onPress={handleForgotPassword}
                 className='flex-row items-center justify-end'
@@ -120,46 +121,48 @@ export default function LoginScreen() {
                 onPress={handleLogin}
               />
             
-            </View>
+              </View>
+              
+              <View className="flex-row items-center">
+                <View className="flex-1 h-[1px] bg-border-light" />
+                  <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">
+                    {TEXTS.DIVIDER_TEXT}
+                  </Text>
+                <View className="flex-1 h-[1px] bg-border-light" />
+              </View>
+            
+              <View className="flex-row  w-full gap-4 justify-center items-center">
 
-            <View className="flex-row items-center my-3">
-              <View className="flex-1 h-[1px] bg-border-light" />
-                <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">
-                  {TEXTS.DIVIDER_TEXT}
-                </Text>
-              <View className="flex-1 h-[1px] bg-border-light" />
+                  <Button 
+                    variant="apple" 
+                    label={TEXTS.BTN_APPLE}
+                    icon={<AppleLogo />} 
+                    onPress={() => console.log('Apple Login')}
+                  />
+
+                  <Button 
+                    variant="google" 
+                    label={TEXTS.BTN_GOOGLE}
+                    icon={<GoogleLogo />} 
+                    onPress={() => console.log('Google Login')}
+                  />
+
+              </View>
+
             </View>
             
-            <View className="flex-row flex-1 w-full justify-around items-center">
-              
-                <Button 
-                  variant="apple" 
-                  label={TEXTS.BTN_APPLE}
-                  icon={<AppleLogo />} 
-                  onPress={() => console.log('Apple Login')}
-                />
-             
-                <Button 
-                  variant="google" 
-                  label={TEXTS.BTN_GOOGLE}
-                  icon={<GoogleLogo />} 
-                  onPress={() => console.log('Google Login')}
-                />
-              
-            </View>
-        
             <View className="flex-row justify-center items-center">
-
-                <Text className="text-lightSutle font-poppins text-sm">
-                  {TEXTS.NO_ACCOUNT}
+              <Text className="text-lightSutle font-poppins text-sm">
+                {TEXTS.NO_ACCOUNT}
+              </Text>
+                
+              <TouchableOpacity onPress={handleSignUp}>
+                <Text className="text-brand font-poppins-semibold text-sm">
+                  {TEXTS.SIGN_UP}
                 </Text>
-
-                <TouchableOpacity onPress={handleSignUp}>
-                  <Text className="text-brand font-poppins-semibold text-sm">
-                    {TEXTS.SIGN_UP}
-                  </Text>
-                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
+
 
           </View>
         </TouchableWithoutFeedback>
