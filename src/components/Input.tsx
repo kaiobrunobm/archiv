@@ -7,7 +7,6 @@ import React, { useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { colors } from '../theme/nativewind';
 import { InputProps } from '../types/types';
-import { cn } from '../utils/utils';
 
 const Input: React.FC<InputProps> = ({
   type = 'text',
@@ -23,6 +22,8 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const [focused, setFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const ref = React.useRef<TextInput>(null);
+
 
   const renderRightIcon = () => {
     if (type === 'password') {
@@ -118,7 +119,7 @@ const Input: React.FC<InputProps> = ({
       <View>{renderRightIcon()}</View>
     </View>
   );
-});
+};
 
 Input.displayName = 'Input';
 

@@ -103,7 +103,6 @@ export default function LoginScreen() {
                 value={email}
                 error={onError}
                 onChangeText={setEmail}
-                error={onError}
               />
 
               <Input

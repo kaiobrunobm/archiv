@@ -21,6 +21,8 @@ import '@/global.css';
 import NotesProvider from '@/src/utils/NotesProvider';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -64,6 +66,7 @@ export default function RootLayout() {
           }} />
         </Stack> 
       </NotesProvider>
+      <Toast />
       <StatusBar barStyle='dark-content'/>
     </GestureHandlerRootView> 
      )
