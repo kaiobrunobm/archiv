@@ -1,4 +1,4 @@
-export const colors =  {
+export const colors = {
   brand: '#FF7043',
   light: '#F0EFF4',
   dark: '#050A10',
@@ -7,12 +7,21 @@ export const colors =  {
   info: '#3482F0',
   danger: '#EF233C',
   surface: {
-    light: '#F6F5F8'
+    light: '#F6F5F8',
+    danger: '#FEE9EC',
+    sucess: '#E7FDEF',
   },
   border: {
     dark: '#908F92',
     light: '#C0BFC3',
-    danger: '#EF233C'
+    danger: '#8F1524',
+    sucess: '#058B38',
+  },
+  text: {
+    'on-surface-light': '#050A10',
+    'on-surface-dark': '#F0EFF4',
+    'on-surface-sucess': '#058B38',
+    'on-surface-danger': '#8F1524'
   },
   background: {
     DEFAULT: '#F0EFF4',

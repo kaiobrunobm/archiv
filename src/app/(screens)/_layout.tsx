@@ -22,6 +22,7 @@ import NotesProvider from '@/src/utils/NotesProvider';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'react-native';
 
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -35,6 +36,7 @@ export default function RootLayout() {
   'Roboto-Bold': RobotoCondensed_700Bold,
   BBHSans: BBHSansBartle_400Regular
   });
+
 
   useEffect(() => {
     if (loaded || error) {
