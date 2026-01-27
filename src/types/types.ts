@@ -5,17 +5,16 @@ import { type VariantProps } from 'class-variance-authority'
 import { toastVariants } from '@/src/components/Toast';
 
 
-type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost' | 'drawer' | 'danger';
-
-export interface ButtonType extends PressableProps {
-  label: string;
-  variant?: ButtonVariant;
-  loading?: boolean;
-  icon?: ReactNode;
-  active?: boolean;
-  className?: string;
-  pressEffect?: 'scale' | 'none';
+export interface ButtonProps
+  extends Omit<ComponentProps<typeof ScaleButton>, 'style' | 'children'>,
+    VariantProps<typeof buttonVariants> {
+  children: string
+  icon?: IconComponent
+  isActive?: boolean
+  isLoading?: boolean
+  className?: string
 }
+
 
 export interface ScaleButtonProps extends PressableProps {
   pressEffect?: 'scale' | 'none';

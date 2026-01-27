@@ -12,7 +12,7 @@ import {
 import { useRef } from 'react';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Button from './Button';
+import {Button} from './Button';
 import MainLogo from './MainLogo';
 
 export default function CustomDrawerContent(props: any) {
@@ -32,51 +32,46 @@ export default function CustomDrawerContent(props: any) {
         </View>
 
         <Button 
-            label="Notes" 
             variant='drawer'
-            icon={<HouseIcon weight={isActive('/mainDashboard') ? 'fill' : 'regular'} />} 
+            icon={HouseIcon} 
             active={isActive('/mainDashboard')}
             onPress={() => router.push('/mainDashboard')}
-          />
+          >Notes</Button>
 
         <View className="gap-2 mt-6">
           
           <Text className='font-poppins text-base text-lightSutle'>Folders</Text>
 
           <Button 
-            label="Draft" 
             variant='drawer'
-            icon={<FolderIcon weight={isActive('/draft') ? 'fill' : 'regular'}/>} 
+            icon={FolderIcon} 
             active={isActive('/draft')}
             onPress={() => router.push('/draft')} 
-          />
+          >Draft</Button>
 
           <Button
-            label='Create new folder'
             variant='ghost'
-            icon={<PlusIcon color='#FF7043'/>}
+            icon={PlusIcon}
             onPress={() => sheetRef.current?.expand()}
-          />
+          >Create new folder</Button>>
           
         </View>
 
         <View className='w-full bg-border-light/40 h-[1px] rounded-full my-3'/>
         <View>
          <Button 
-            label="Trash" 
-            icon={<TrashIcon weight={isActive('/trashDashboard') ? 'fill' : 'regular'}/>} 
+            icon={TrashIcon} 
             variant='drawer'
             active={isActive('/trashDashboard')}
             onPress={() => router.push('/trashDashboard')} 
-          />
+          >Trash</Button>
 
           <Button 
-            label="Archive" 
             variant='drawer'
-            icon={<ArchiveIcon weight={isActive('/archiveDashboard') ? 'fill' : 'regular'}/>} 
+            icon={ArchiveIcon} 
             active={isActive('/archiveDashboard')}
             onPress={() => router.push('/archiveDashboard')} 
-          />
+          >Archive</Button>
 
         </View>
        

@@ -11,7 +11,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
 import AppleLogo from '@/src/components/AppleIcon';
-import Button from '@/src/components/Button';
+import { Button } from '@/src/components/Button';
 import GoogleLogo from '@/src/components/GoogleIcon';
 import Input from '@/src/components/Input';
 import MainLogo from '@/src/components/MainLogo';
@@ -186,13 +186,43 @@ export default function LoginScreen() {
                 </Text>
               </TouchableOpacity>
 
-              <Button
-                variant="brand"
-                label={TEXTS.BTN_LOGIN}
+              <Button 
+                variant="brand" 
                 disabled={isLoading}
                 loading={isLoading}
                 onPress={handleLogin}
-              />
+              >
+                {TEXTS.BTN_LOGIN} 
+              </Button>
+          </View> 
+
+              <View className="flex-row items-center">
+                <View className="flex-1 h-[1px] bg-border-light" />
+                  <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">
+                    {TEXTS.DIVIDER_TEXT}
+                  </Text>
+                <View className="flex-1 h-[1px] bg-border-light" />
+              </View>
+            
+              <View className="flex-row  w-full gap-4 justify-center items-center">
+
+                  <Button 
+                    variant="apple" 
+                    icon={AppleLogo} 
+                    onPress={() => console.log('Apple Login')}
+                  >
+                    {TEXTS.BTN_APPLE}
+                  </Button>
+
+                  <Button 
+                    variant="google" 
+                    icon={GoogleLogo} 
+                    onPress={() => console.log('Google Login')}
+                  >
+                  {TEXTS.BTN_GOOGLE}
+                  </Button>
+
+              </View>
 
             </View>
 

@@ -1,5 +1,5 @@
 import AppleLogo from '@/src/components/AppleIcon';
-import Button from '@/src/components/Button';
+import { Button } from '@/src/components/Button';
 import GoogleLogo from '@/src/components/GoogleIcon';
 import MainLogo from '@/src/components/MainLogo';
 import { AuthOption } from '@/src/types/types';
@@ -34,21 +34,21 @@ export default function WelcomeScreen() {
       id: 'apple',
       label: 'Continue with Apple',
       variant: 'apple',
-      icon: <AppleLogo size={24} />,
+      icon: AppleLogo,
       action: () => handleAuth('apple'),
     },
     {
       id: 'google',
       label: 'Continue with Google',
       variant: 'google',
-      icon: <GoogleLogo size={24} />,
+      icon: GoogleLogo,
       action: () => handleAuth('google'),
     },
     {
       id: 'email',
       label: 'Continue with Email',
       variant: 'brand',
-      icon: <EnvelopeIcon color="#F0EFF4" size={28} />,
+      icon: EnvelopeIcon,
       action: () => navigation.push('/credentialsSignup'),
     },
   ];
@@ -86,10 +86,11 @@ export default function WelcomeScreen() {
             <Button
               key={option.id}
               variant={option.variant}
-              label={option.label}
               icon={option.icon}
               onPress={option.action}
-            />
+            >
+              {option.label}
+            </Button>
           ))}
         </View>
 
