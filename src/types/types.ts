@@ -1,24 +1,52 @@
 import { IconProps } from 'phosphor-react-native';
-import React, { ReactNode } from 'react';
-import { PressableProps, TextInputProps } from 'react-native';
+import React, { ComponentProps } from 'react';
+import { PressableProps, TextInputProps, ViewProps } from 'react-native';
+import { VariantProps } from 'tailwind-variants';
+import { toastVariants } from '@/src/components/Toast';
+import { ScaleButton } from '@/src/components/ScaleButton';
+import { buttonVariants } from '@/src/components/Button';
 
-type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost' | 'drawer';
 
-export interface ButtonType extends PressableProps {
-  label: string;
-  variant?: ButtonVariant;
-  loading?: boolean;
-  icon?: ReactNode;
-  active?: boolean;
+
+type IconComponent = React.ComponentType<IconProps>
+
+export interface ButtonProps
+  extends Omit<ComponentProps<typeof ScaleButton>, 'style' | 'children' | 'disabled'>,
+  VariantProps<typeof buttonVariants> {
+  children: string
+  icon?: IconComponent
+  active?: boolean
+  isLoading?: boolean
+  className?: string
 }
 
+export interface ScaleButtonProps extends PressableProps {
+  pressEffect?: 'scale' | 'none';
+}
+
+export interface AuthOption {
+  id: string;
+  label: string;
+  variant: 'apple' | 'google' | 'brand';
+  icon: IconComponent;
+  action: () => void;
+}
+
+type InputVariant = 'text' | 'password' | 'search';
+
 export interface InputProps extends TextInputProps {
-  type?: 'text' | 'password' | 'search';
+  type?: InputVariant;
   error?: boolean;
   LeftIcon?: React.FC<IconProps>;
   RightIcon?: React.FC<IconProps>;
   onRightIconPress?: () => void;
 }
+
+export type InputVisualState = {
+  container: string;
+  text: string;
+  iconColor: string;
+};
 
 type NoteVariant = 'alone' | 'top' | 'middle' | 'bottom';
 
@@ -40,3 +68,11 @@ export type Note = {
   folder: string;
   updatedAt: Date;
 };
+
+export type ToastVariant = 'default' | 'success' | 'danger';
+
+export interface ToastProps extends ViewProps, VariantProps<typeof toastVariants> {
+  title?: string;
+  description?: string;
+  onClose?: () => void;
+}

@@ -1,115 +1,123 @@
-import { cn } from '@/src/utils/utils';
-import { cva } from 'class-variance-authority';
-import React, { useEffect } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming
-} from 'react-native-reanimated';
-import { ButtonType } from '../types/types';
-import { ScaleButton } from './ScaleButton';
+import React from 'react'
+import { Text, ActivityIndicator } from 'react-native'
+import { tv } from 'tailwind-variants'
+import { twMerge } from 'tailwind-merge'
+import { ScaleButton } from '@/src/components/ScaleButton'
+import { ButtonProps } from '@/src/types/types'
 
-const buttonVariants = cva(
-  'flex-row items-center justify-center rounded-2xl px-6 py-4 gap-3 disabled:opacity-50',
-  {
-    variants: {
-      variant: {
-        brand: 'bg-brand',
-        google:
-          'bg-surface-light border border-border-light active:bg-gray-100',
-        apple: 'bg-dark',
-        ghost: 'bg-transparent active:bg-button-brandDisable',
-        drawer: `bg-transparent justify-start active:bg-button-brandDisable`,
-        danger: 'bg-button-danger'
-      }
-    },
-    defaultVariants: {
-      variant: 'brand'
-    }
-  }
-);
-
-const textVariants = cva('text-base font-poppins-semibold text-center py-1.5', {
+export const buttonVariants = tv({
+  base: 'flex-row items-center justify-center rounded-2xl border border-transparent',
   variants: {
     variant: {
-      brand: 'text-light',
-      google: 'text-dark',
-      apple: 'text-light',
-      ghost: 'text-brand',
-      drawer: 'text-dark',
-      danger: 'text-danger'
+
+      brand: 'bg-brand border-brand',
+
+      apple: 'bg-dark border-dark',
+
+      google: 'bg-surface-light border-border-light',
+
+      ghost: 'bg-transparent border-transparent justify-start px-0 active:bg-brand/5',
+
+      drawer: 'border-transparent justify-start items-center px-0 active:bg-brand/5'
+    },
+    size: {
+      default: 'py-5 px-6 gap-3',
+      sm: 'h-10 px-3 gap-2',
+    },
+    disabled: {
+      true: 'opacity-50',
+      false: 'opacity-100',
+    },
+    active: {
+      true: '',
+      false: '',
+    }
+  },
+  slots: {
+    text: 'text-base font-poppins-semibold',
+    icon: '',
+  },
+
+  compoundVariants: [
+    {
+      variant: 'drawer',
+      active: true,
+      class: 'bg-brand/10',
+    },
+  ],
+
+  defaultVariants: {
+    variant: 'brand',
+    size: 'default',
+    disabled: false,
+  },
+})
+
+export function Button({
+  className,
+  variant,
+  size,
+  disabled,
+  isLoading,
+  active,
+  children,
+  icon: Icon,
+  ...props
+}: ButtonProps) {
+  const { base, text } = buttonVariants({ variant, size, disabled: disabled || isLoading, active })
+
+  const getContentColor = () => {
+    switch (variant) {
+      case 'brand':
+      case 'apple':
+        return '#F0EFF4'
+      case 'google':
+        return '#050A10'
+      case 'ghost':
+        return '#FF7043'
+      case 'drawer':
+        return '#050A10'
+      default:
+        return '#F0EFF4'
     }
   }
-});
 
-const Button = ({
-  label,
-  variant,
-  className,
-  loading,
-  icon,
-  active,
-  ...props
-}: ButtonType) => {
-  const contentOpacity = useSharedValue(1);
-  const spinnerOpacity = useSharedValue(0);
-
-  useEffect(() => {
-    if (loading) {
-      contentOpacity.value = withTiming(0, { duration: 200 });
-      spinnerOpacity.value = withTiming(1, { duration: 200 });
-    } else {
-      contentOpacity.value = withTiming(1, { duration: 200 });
-      spinnerOpacity.value = withTiming(0, { duration: 200 });
-    }
-  }, [loading]);
-
-  const contentStyle = useAnimatedStyle(() => ({
-    opacity: contentOpacity.value
-  }));
-
-  const spinnerStyle = useAnimatedStyle(() => ({
-    opacity: spinnerOpacity.value,
-    transform: [{ scale: spinnerOpacity.value }]
-  }));
-
-  const getSpinnerColor = () => {
+  const contentColor = getContentColor()
+  const getTextColorClass = () => {
     switch (variant) {
-      case 'google':
-        return '#050A10';
-      case 'ghost':
-        return '#FF7043';
-      default:
-        return '#F0EFF4';
+      case 'brand':
+      case 'apple': return 'text-[#F0EFF4]'
+      case 'google': return 'text-[#050A10]'
+      case 'ghost': return 'text-[#FF7043]'
+      case 'drawer': return 'text-[#050A10]'
+      default: return 'text-[#F0EFF4]'
     }
-  };
+  }
 
   return (
     <ScaleButton
-      className={cn(
-        buttonVariants({ variant, className }),
-        active ? "bg-button-tab-active" : ""
-      )}
-      disabled={loading || props.disabled}
+      disabled={disabled || isLoading}
+      style={undefined}
+      className={twMerge(base(), className)}
       {...props}
     >
-      <Animated.View
-        style={[spinnerStyle, { position: 'absolute' }]}
-        pointerEvents='none'
-      >
-        <ActivityIndicator size='small' color={getSpinnerColor()} />
-      </Animated.View>
+      {isLoading ? (
+        <ActivityIndicator color={contentColor} />
+      ) : (
+        <>
+          {Icon && (
+            <Icon
+              size={24}
+              color={contentColor}
+              weight={active && variant === 'drawer' ? 'fill' : 'regular'}
+            />
+          )}
 
-      <Animated.View
-        className='flex-row items-center gap-3'
-        style={contentStyle}
-      >
-        {icon && <View className='h-8 w-8 items-center justify-center'>{icon}</View>}
-        <Text className={cn(textVariants({ variant }))}>{label}</Text>
-      </Animated.View>
+          <Text className={twMerge(text(), getTextColorClass())}>
+            {children}
+          </Text>
+        </>
+      )}
     </ScaleButton>
-  );
-};
-
-export default Button;
+  )
+}

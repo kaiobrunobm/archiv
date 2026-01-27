@@ -1,17 +1,14 @@
 import React from 'react';
-import { Pressable, type PressableProps } from 'react-native';
+import { Pressable } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming
 } from 'react-native-reanimated';
+import { ScaleButtonProps } from '../types/types';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
-interface ScaleButtonProps extends PressableProps {
-  pressEffect?: 'scale' | 'none';
-}
 
 export const ScaleButton = ({
   style,

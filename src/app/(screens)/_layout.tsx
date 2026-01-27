@@ -20,6 +20,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '@/global.css';
 import NotesProvider from '@/src/utils/NotesProvider';
 import { Stack } from 'expo-router';
+import { StatusBar } from 'react-native';
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -34,6 +36,7 @@ export default function RootLayout() {
   'Roboto-Bold': RobotoCondensed_700Bold,
   BBHSans: BBHSansBartle_400Regular
   });
+
 
   useEffect(() => {
     if (loaded || error) {
@@ -57,8 +60,13 @@ export default function RootLayout() {
           />
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
+          <Stack.Screen name="settings" options={{
+            gestureEnabled: false, 
+            animation: 'slide_from_bottom'
+          }} />
         </Stack> 
       </NotesProvider>
+      <StatusBar barStyle='dark-content'/>
     </GestureHandlerRootView> 
      )
 }
