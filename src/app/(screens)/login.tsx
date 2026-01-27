@@ -11,7 +11,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 
 
 import AppleLogo from '@/src/components/AppleIcon';
-import Button from '@/src/components/Button';
+import { Button } from '@/src/components/Button';
 import GoogleLogo from '@/src/components/GoogleIcon';
 import Input from '@/src/components/Input';
 import MainLogo from '@/src/components/MainLogo';
@@ -46,13 +46,10 @@ export default function LoginScreen() {
   const [errorMessages, setErrorMessages] = useState('');
   
 
-
   const handleLogin = async () => {
     if (!email || !password) {
       setOnError(true);
       setTimeout(() => setOnError(false), 5000);
-      
-      
       return;
     }
 
@@ -125,13 +122,13 @@ export default function LoginScreen() {
 
               <Button 
                 variant="brand" 
-                label={TEXTS.BTN_LOGIN} 
                 disabled={isLoading}
                 loading={isLoading}
                 onPress={handleLogin}
-              />
-            
-              </View>
+              >
+                {TEXTS.BTN_LOGIN} 
+              </Button>
+          </View> 
 
               <View className="flex-row items-center">
                 <View className="flex-1 h-[1px] bg-border-light" />
@@ -145,17 +142,19 @@ export default function LoginScreen() {
 
                   <Button 
                     variant="apple" 
-                    label={TEXTS.BTN_APPLE}
-                    icon={<AppleLogo />} 
+                    icon={AppleLogo} 
                     onPress={() => console.log('Apple Login')}
-                  />
+                  >
+                    {TEXTS.BTN_APPLE}
+                  </Button>
 
                   <Button 
                     variant="google" 
-                    label={TEXTS.BTN_GOOGLE}
-                    icon={<GoogleLogo />} 
+                    icon={GoogleLogo} 
                     onPress={() => console.log('Google Login')}
-                  />
+                  >
+                  {TEXTS.BTN_GOOGLE}
+                  </Button>
 
               </View>
 
