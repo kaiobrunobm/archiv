@@ -68,13 +68,13 @@ export function Button({
     switch (variant) {
       case 'brand':
       case 'apple':
-        return '#FFFFFF'
+        return '#F0EFF4'
       case 'google':
         return '#050A10'
       case 'ghost':
         return '#FF7043'
       default:
-        return '#FFFFFF'
+        return '#F0EFF4'
     }
   }
 
@@ -82,10 +82,10 @@ export function Button({
   const getTextColorClass = () => {
      switch (variant) {
       case 'brand':
-      case 'apple': return 'text-white'
+      case 'apple': return 'text-[#F0EFF4]'
       case 'google': return 'text-[#050A10]'
       case 'ghost': return 'text-[#FF7043]'
-      default: return 'text-white'
+      default: return 'text-[#F0EFF4]'
     }
   }
 
