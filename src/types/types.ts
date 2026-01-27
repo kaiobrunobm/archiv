@@ -1,8 +1,11 @@
 import { IconProps } from 'phosphor-react-native';
 import React, { ReactNode } from 'react';
-import { PressableProps, TextInputProps } from 'react-native';
+import { PressableProps, TextInputProps, ViewProps } from 'react-native';
+import { type VariantProps } from 'class-variance-authority'
+import { toastVariants } from '@/src/components/Toast';
 
-type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost' | 'drawer'  | 'danger';
+
+type ButtonVariant = 'brand' | 'google' | 'apple' | 'ghost' | 'drawer' | 'danger';
 
 export interface ButtonType extends PressableProps {
   label: string;
@@ -10,7 +13,7 @@ export interface ButtonType extends PressableProps {
   loading?: boolean;
   icon?: ReactNode;
   active?: boolean;
-  className?: string; 
+  className?: string;
   pressEffect?: 'scale' | 'none';
 }
 
@@ -62,3 +65,11 @@ export type Note = {
   folder: string;
   updatedAt: Date;
 };
+
+export type ToastVariant = 'default' | 'success' | 'danger';
+
+export interface ToastProps extends ViewProps, VariantProps<typeof toastVariants> {
+  title: string;
+  description?: string;
+  onClose?: () => void;
+}
