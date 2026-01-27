@@ -15,7 +15,10 @@ import { Button } from '@/src/components/Button';
 import GoogleLogo from '@/src/components/GoogleIcon';
 import Input from '@/src/components/Input';
 import MainLogo from '@/src/components/MainLogo';
+import { Toast } from '@/src/components/Toast'
 import { Keyboard } from 'react-native';
+import { toastVariants } from '@/src/components/Toast';
+import { ToastVariant } from '@/src/types/types';
 
 
 const TEXTS = {
@@ -33,23 +36,86 @@ const TEXTS = {
   ERROR_EMPTY_FIELDS: 'Please fill in all fields'
 };
 
+type toastProps = {
+  title: string,
+  descripion?: string
+}
+
 export default function LoginScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [onError, setOnError] = useState(false);
 
-  const [errorMessages, setErrorMessages] = useState('');
-  
+
+  const [showToast, setShowToast] = useState(true);
+  const [toastType, setToastType] = useState<ToastVariant>('default')
+  const [toastMessages, setTostMessages] = useState<toastProps>();
 
   const handleLogin = async () => {
-    if (!email || !password) {
+    if (!email && !password) {
       setOnError(true);
-      setTimeout(() => setOnError(false), 5000);
+      setTimeout(() => setOnError(false), 2000);
+
+      setShowToast(true)
+      setToastType('danger')
+      setTostMessages({
+        title: "Empty fields",
+        descripion: "Fill the fields and try again"
+      })
+
+      return;
+    } else if (!email) {
+      setOnError(true);
+      setTimeout(() => setOnError(false), 2000);
+
+      setShowToast(true)
+      setToastType('danger')
+      setTostMessages({
+        title: "Email empty",
+        descripion: "Fill the email input and try again"
+      })
+
+      return;
+    } else if (!password) {
+      setOnError(true);
+      setTimeout(() => setOnError(false), 2000);
+
+      setShowToast(true)
+      setToastType('danger')
+      setTostMessages({
+        title: "Password empty",
+        descripion: "Fill the password input and try again"
+      })
+
+      return;
+    } else if (password !== '123456') {
+      setOnError(true);
+      setTimeout(() => setOnError(false), 2000);
+
+      setShowToast(true)
+      setToastType('danger')
+      setTostMessages({
+        title: "Wrong password",
+        descripion: "Passwrod wrong, check and try again"
+      })
+
+      return;
+    } else if (email !== 'bmkaiobruno@gmail.com') {
+      setOnError(true);
+      setTimeout(() => setOnError(false), 2000);
+
+      setShowToast(true)
+      setToastType('danger')
+      setTostMessages({
+        title: "Wrong email",
+        descripion: "This email have no registration"
+      })
+
       return;
     }
 
@@ -57,8 +123,8 @@ export default function LoginScreen() {
 
     setTimeout(() => {
       setIsLoading(false);
-      
-      router.replace('/mainDashboard'); 
+
+      router.replace('/mainDashboard');
     }, 2000);
   };
 
@@ -71,28 +137,28 @@ export default function LoginScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-light" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom}}>
+    <SafeAreaView className="flex-1 bg-light" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom }}>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View className="flex-1 flex-col justify-between px-5">
+        <View className="flex-1 flex-col justify-between px-5">
 
-            <View className='gap-5'>
-              <MainLogo />
+          <View className='gap-5'>
+            <MainLogo />
 
-              <View>
-                <Text className="text-dark font-roboto-semibold text-3xl">
-                  {TEXTS.HEADER_TITLE}
-                </Text>
-                <Text className="text-lightSutle font-poppins">
-                  {TEXTS.HEADER_SUBTITLE}
-                </Text>
-              </View>       
+            <View>
+              <Text className="text-dark font-roboto-semibold text-3xl">
+                {TEXTS.HEADER_TITLE}
+              </Text>
+              <Text className="text-lightSutle font-poppins">
+                {TEXTS.HEADER_SUBTITLE}
+              </Text>
             </View>
+          </View>
 
-            <View className="w-full gap-6">
+          <View className="w-full gap-6">
 
-              <View className='gap-3 w-full '>
+            <View className='gap-3 w-full '>
 
-              <Input 
+              <Input
                 placeholder={TEXTS.PLACEHOLDER_EMAIL}
                 LeftIcon={EnvelopeIcon}
                 keyboardType="email-address"
@@ -110,13 +176,13 @@ export default function LoginScreen() {
                 error={onError}
                 onChangeText={setPassword}
               />
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 onPress={handleForgotPassword}
                 className='flex-row items-center justify-end'
               >
                 <Text className="text-brand font-poppins text-sm">
-                {TEXTS.FORGOT_PASSWORD}
+                  {TEXTS.FORGOT_PASSWORD}
                 </Text>
               </TouchableOpacity>
 
@@ -159,22 +225,59 @@ export default function LoginScreen() {
               </View>
 
             </View>
-            
-            <View className="flex-row justify-center items-center">
-              <Text className="text-lightSutle font-poppins text-sm">
-                {TEXTS.NO_ACCOUNT}
+
+            <View className="flex-row items-center">
+              <View className="flex-1 h-[1px] bg-border-light" />
+              <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">
+                {TEXTS.DIVIDER_TEXT}
               </Text>
-                
-              <TouchableOpacity onPress={handleSignUp}>
-                <Text className="text-brand font-poppins-semibold text-sm">
-                  {TEXTS.SIGN_UP}
-                </Text>
-              </TouchableOpacity>
+              <View className="flex-1 h-[1px] bg-border-light" />
             </View>
 
+            <View className="flex-row  w-full gap-4 justify-center items-center">
+
+              <Button
+                variant="apple"
+                label={TEXTS.BTN_APPLE}
+                icon={<AppleLogo />}
+                onPress={() => console.log('Apple Login')}
+              />
+
+              <Button
+                variant="google"
+                label={TEXTS.BTN_GOOGLE}
+                icon={<GoogleLogo />}
+                onPress={() => console.log('Google Login')}
+              />
+
+            </View>
 
           </View>
-        </TouchableWithoutFeedback>
+
+          <View className="flex-row justify-center items-center">
+            <Text className="text-lightSutle font-poppins text-sm">
+              {TEXTS.NO_ACCOUNT}
+            </Text>
+
+            <TouchableOpacity onPress={handleSignUp}>
+              <Text className="text-brand font-poppins-semibold text-sm">
+                {TEXTS.SIGN_UP}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+
+          {showToast && (
+            <Toast
+              title={toastMessages?.title}
+              description={toastMessages?.descripion}
+              variant={toastType}
+              onClose={() => setShowToast(false)} />
+          )
+          }
+
+        </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }

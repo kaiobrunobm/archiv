@@ -1,6 +1,8 @@
 import { IconProps } from 'phosphor-react-native';
 import React, { ReactNode } from 'react';
-import { PressableProps, TextInputProps } from 'react-native';
+import { PressableProps, TextInputProps, ViewProps } from 'react-native';
+import { type VariantProps } from 'class-variance-authority'
+import { toastVariants } from '@/src/components/Toast';
 
 
 export interface ButtonProps
@@ -62,3 +64,11 @@ export type Note = {
   folder: string;
   updatedAt: Date;
 };
+
+export type ToastVariant = 'default' | 'success' | 'danger';
+
+export interface ToastProps extends ViewProps, VariantProps<typeof toastVariants> {
+  title?: string;
+  description?: string;
+  onClose?: () => void;
+}
