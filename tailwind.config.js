@@ -1,5 +1,4 @@
-const { colors } = require('@/src/theme/nativewind.ts');
-
+import { colors } from './src/theme/nativewind';
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],

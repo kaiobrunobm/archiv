@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, Pressable, View } from 'react-native';
 import Animated, {
   FadeInUp,
@@ -9,6 +9,8 @@ import Animated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -56,7 +58,7 @@ const titleVariants = cva('font-poppins-semibold text-sm leading-5', {
   },
 });
 
-const descriptionVariants = cva('font-poppins-regular text-xs mt-0.5', {
+const descriptionVariants = cva('font-poppins-regular text-xs', {
   variants: {
     variant: {
       default: 'text-text-on-surface-light opacity-80',
@@ -84,8 +86,9 @@ export function Toast({
   const translateY = useSharedValue(0);
   const isDismissing = useSharedValue(false);
 
+  const insets = useSafeAreaInsets();
+
   const handleClose = () => {
-    'worklet';
     if (onClose) {
       onClose();
     }
@@ -103,10 +106,10 @@ export function Toast({
     .onEnd((event) => {
       if (event.translationY < DISMISS_THRESHOLD || event.velocityY < -600) {
         isDismissing.value = true;
-        translateY.value = withTiming(event.translationY - 50, { duration: 100 });
+        translateY.value = withTiming(event.translationY - 50, { duration: 1 });
         scheduleOnRN(handleClose)
       } else {
-        translateY.value = withSpring(0, { damping: 15, stiffness: 150 });
+        translateY.value = withSpring(0);
       }
     });
 
@@ -124,50 +127,60 @@ export function Toast({
 
   const iconColor = TOAST_ICON_COLORS[variant || 'default'];
 
+  useEffect(() => {
+    setTimeout(() => {
+      handleClose()
+    }, 2000)
+  }, [])
+
+
   return (
-    <GestureDetector gesture={panGesture}>
-      <Animated.View
-        entering={FadeInUp.springify().damping(18)}
-        exiting={FadeOutUp.springify().damping(18)}
-        layout={LinearTransition.springify()}
-        className={cn(toastVariants({ variant, className }))}
-        style={[style, animatedStyle]}
-        {...props}
-      >
-        <View className="mt-0.5">
-          <IconComponent
-            size={24}
-            weight="regular"
-            color={iconColor}
-          />
-        </View>
 
-        <View className="flex-1 justify-center">
-          <Text className={cn(titleVariants({ variant }))}>
-            {title}
-          </Text>
-
-          {description && (
-            <Text className={cn(descriptionVariants({ variant }))}>
-              {description}
-            </Text>
-          )}
-        </View>
-
-        {onClose && (
-          <Pressable
-            onPress={handleClose}
-            hitSlop={12}
-            className="mt-0.5 opacity-60 active:opacity-100 p-1 -m-1"
-          >
-            <XIcon
-              size={20}
+    <View className="absolute left-4 right-4 -top-16 z-50" style={{ paddingTop: insets.top }}>
+      <GestureDetector gesture={panGesture}>
+        <Animated.View
+          entering={FadeInUp.springify(150)}
+          exiting={FadeOutUp.springify(150)}
+          layout={LinearTransition.springify()}
+          className={cn(toastVariants({ variant, className }))}
+          style={[style, animatedStyle]}
+          {...props}
+        >
+          <View className="items-center justify-center">
+            <IconComponent
+              size={24}
+              weight="regular"
               color={iconColor}
-              weight="bold"
             />
-          </Pressable>
-        )}
-      </Animated.View>
-    </GestureDetector>
+          </View>
+
+          <View className="flex-1 justify-center">
+            <Text className={cn(titleVariants({ variant }))}>
+              {title}
+            </Text>
+
+            {description && (
+              <Text className={cn(descriptionVariants({ variant }))}>
+                {description}
+              </Text>
+            )}
+          </View>
+
+          {onClose && (
+            <Pressable
+              onPress={handleClose}
+              hitSlop={12}
+              className="items-center justify-center opacity-60 active:opacity-100 p-1 -m-1"
+            >
+              <XIcon
+                size={20}
+                color={iconColor}
+                weight="bold"
+              />
+            </Pressable>
+          )}
+        </Animated.View>
+      </GestureDetector>
+    </View>
   );
 }

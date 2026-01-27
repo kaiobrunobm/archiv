@@ -48,15 +48,13 @@ export default function DashboardScreen() {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const sheetRef = useRef<BottomSheet>(null);
 
-	const isFloatButtonOpen = useSharedValue(0);
+  const isFloatButtonOpen = useSharedValue(0);
   const navigation = useNavigation();
   const route = useRouter();
-  
+
   const keyboard = useAnimatedKeyboard();
 
-  
-
- useEffect(() => {
+  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
@@ -82,46 +80,46 @@ export default function DashboardScreen() {
   };
 
 
-	const toggleMenu = () => {
-		const target = isFloatButtonOpen.value === 0 ? 1 : 0;
+  const toggleMenu = () => {
+    const target = isFloatButtonOpen.value === 0 ? 1 : 0;
 
-		const config = {
-			duration: 200,
-			easing: Easing.out(Easing.quad), 
-		};
+    const config = {
+      duration: 200,
+      easing: Easing.out(Easing.quad),
+    };
 
-		isFloatButtonOpen.value = withTiming(target, config);
-	};
+    isFloatButtonOpen.value = withTiming(target, config);
+  };
 
-	const fabIconStyle = useAnimatedStyle(() => {
-		return {
-			transform: [
-				{ rotate: `${interpolate(isFloatButtonOpen.value, [0, 1], [0, 45])}deg` },
-			],
-		};
-	});	
+  const fabIconStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { rotate: `${interpolate(isFloatButtonOpen.value, [0, 1], [0, 45])}deg` },
+      ],
+    };
+  });
 
-	const backdropStyle = useAnimatedStyle(() => {
-		return {
-			opacity: interpolate(isFloatButtonOpen.value, [0, 1], [0, 0.3]),
-			pointerEvents: isFloatButtonOpen.value > 0.1 ? "auto" : "none",
-		};
-	});
+  const backdropStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(isFloatButtonOpen.value, [0, 1], [0, 0.3]),
+      pointerEvents: isFloatButtonOpen.value > 0.1 ? "auto" : "none",
+    };
+  });
 
-	const useMenuItemStyle = (index: number) => {
-		return useAnimatedStyle(() => {
+  const useMenuItemStyle = (index: number) => {
+    return useAnimatedStyle(() => {
 
-			const translateY = interpolate(isFloatButtonOpen.value, [0, 1], [15, 0]);
+      const translateY = interpolate(isFloatButtonOpen.value, [0, 1], [15, 0]);
 
-			const opacity = interpolate(isFloatButtonOpen.value, [0, 1], [0, 1]);
+      const opacity = interpolate(isFloatButtonOpen.value, [0, 1], [0, 1]);
 
-			return {
-				opacity,
-				transform: [{ translateY }],
-				pointerEvents: isFloatButtonOpen.value > 0.8 ? "auto" : "none",
-			};
-		});
-	};
+      return {
+        opacity,
+        transform: [{ translateY }],
+        pointerEvents: isFloatButtonOpen.value > 0.8 ? "auto" : "none",
+      };
+    });
+  };
 
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -129,51 +127,51 @@ export default function DashboardScreen() {
     };
   });
 
-	const newNoteStyle = useMenuItemStyle(1);
-	const newFolderStyle = useMenuItemStyle(0);
-  const groupedNotes = useGroupedNotes(); 
+  const newNoteStyle = useMenuItemStyle(1);
+  const newFolderStyle = useMenuItemStyle(0);
+  const groupedNotes = useGroupedNotes();
   const { deleteNote, notes } = useNotes();
   const insets = useSafeAreaInsets();
 
-	return (
-		<TouchableWithoutFeedback className="flex-1 bg-light" onPress={Keyboard.dismiss}>
-			<View style={{ paddingTop: insets.top }}>
-				<ScrollView
-					contentContainerStyle={{ paddingBottom: 50 + insets.bottom}}
-					showsVerticalScrollIndicator={false}
-				>
-					<View className="px-5 pt-2 mb-4 mt-4">
+  return (
+    <TouchableWithoutFeedback className="flex-1 bg-light" onPress={Keyboard.dismiss}>
+      <View className="h-full" style={{ paddingTop: insets.top }}>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 50 + insets.bottom }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="px-5 pt-2 mb-4 mt-4">
 
-						<View className="flex-row justify-between items-center mb-6">
-							<IconButton variant="elevated" className="p-8" onPress={toggleDrawer}>
-								<DotsThreeIcon size={28} color="#606062" weight="bold" />
-							</IconButton>
+            <View className="flex-row justify-between items-center mb-6">
+              <IconButton variant="elevated" className="p-8" onPress={toggleDrawer}>
+                <DotsThreeIcon size={28} color="#606062" weight="bold" />
+              </IconButton>
 
-							<ScaleButton className="h-16 w-16 rounded-full p-0.5 overflow-hidden border-2 border-brand "  onPress={() => route.push('/settings')}>
-								<Image
-									source={{
-										uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
-									}}
-									className="h-full w-full rounded-full"
-								/>
-							</ScaleButton>
-  
+              <ScaleButton className="h-16 w-16 rounded-full p-0.5 overflow-hidden border-2 border-brand " onPress={() => route.push('/settings')}>
+                <Image
+                  source={{
+                    uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
+                  }}
+                  className="h-full w-full rounded-full"
+                />
+              </ScaleButton>
 
-						</View>
 
-						<Text className="text-3xl font-roboto-semibold text-dark">
-							All Notes
-						</Text>
+            </View>
 
-						<Text className="text-subtle font-poppins text-base">{notes.length} Notes</Text>
+            <Text className="text-3xl font-roboto-semibold text-dark">
+              All Notes
+            </Text>
 
-					</View>
-          
+            <Text className="text-subtle font-poppins text-base">{notes.length} Notes</Text>
+
+          </View>
+
           {notes.length > 0 ? (
             <View className="pb-4">
               {groupedNotes.map((section) => (
                 <View key={section.title} className="px-5 mb-6">
-                  
+
                   {/* Section Header */}
                   <Text className="text-lg font-poppins-semibold text-dark mb-4">
                     {section.title}
@@ -206,119 +204,119 @@ export default function DashboardScreen() {
               <Text className="text-base text-gray-300">Create your first note to get started!</Text>
             </View>
           )}
-				</ScrollView>
+        </ScrollView>
 
-				<TouchableWithoutFeedback onPress={toggleMenu}>
-					<Animated.View
-						style={[
-							{
-								position: "absolute",
-								top: 0,
-								left: 0,
-								right: 0,
-								bottom: 0,
-								backgroundColor: "#050A10",
-								zIndex: 40,
-							},
-							backdropStyle,
-						]}
-					/>
-				</TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={toggleMenu}>
+          <Animated.View
+            style={[
+              {
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "#050A10",
+                zIndex: 40,
+              },
+              backdropStyle,
+            ]}
+          />
+        </TouchableWithoutFeedback>
 
-				<Animated.View 
-        className="absolute bottom-0 left-0 right-0 z-50" 
-        style={[{paddingBottom: !isKeyboardVisible ? insets.bottom : 0}, translateStyle]}>
+        <Animated.View
+          className="absolute bottom-0 left-0 right-0 z-50"
+          style={[{ paddingBottom: !isKeyboardVisible ? insets.bottom : 0 }, translateStyle]}>
 
-					<LinearGradient
-						colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
-						locations={[0, 0.6, 1]}
-						className="absolute left-0 right-0 bottom-0 h-48"
-						pointerEvents="none"
-					/>
+          <LinearGradient
+            colors={["transparent", "rgba(255,255,255,0)", "rgba(5,10,16,0.3)"]}
+            locations={[0, 0.6, 1]}
+            className="absolute left-0 right-0 bottom-0 h-48"
+            pointerEvents="none"
+          />
 
-					<View className="absolute right-[24px] bottom-32 items-end gap-8 pointer-events-box-none" style={{paddingBottom: insets.bottom }}>
+          <View className="absolute right-[24px] bottom-32 items-end gap-8 pointer-events-box-none" style={{ paddingBottom: insets.bottom }}>
 
-						<Animated.View
-							style={[
-								newNoteStyle,
-								{ flexDirection: "row", alignItems: "center" },
-							]}
-						>
-							<View  className="mr-4 bg-light rounded-2xl px-5 py-2">
-								<Text className="font-poppins-semibold text-dark">
-									New Note
-								</Text>
-							</View>
-							<IconButton
-								variant="elevated"
-								className="p-7"
-								onPress={() => {
-									toggleMenu();
-									route.push('/textEditor')
+            <Animated.View
+              style={[
+                newNoteStyle,
+                { flexDirection: "row", alignItems: "center" },
+              ]}
+            >
+              <View className="mr-4 bg-light rounded-2xl px-5 py-2">
+                <Text className="font-poppins-semibold text-dark">
+                  New Note
+                </Text>
+              </View>
+              <IconButton
+                variant="elevated"
+                className="p-7"
+                onPress={() => {
+                  toggleMenu();
+                  route.push('/textEditor')
                 }}
-							>
-								<NoteIcon size={24} color="#FF7043" />
-							</IconButton>
-						</Animated.View>
+              >
+                <NoteIcon size={24} color="#FF7043" />
+              </IconButton>
+            </Animated.View>
 
-						<Animated.View
-							style={[
-								newFolderStyle,
-								{ flexDirection: "row", alignItems: "center" },
-							]}
-						>
-							<View className="mr-4 bg-light rounded-2xl px-5 py-2">
-								<Text className="font-poppins-semibold text-dark">
-									New Folder
-								</Text>
-							</View>
-							<IconButton variant="elevated" className="p-7" 
-              onPress={() => {
-                sheetRef.current?.expand()
-                toggleMenu();
-              }}>
-								<FolderIcon size={24} color="#FF7043" />
-							</IconButton>
-						</Animated.View>
-					</View>
+            <Animated.View
+              style={[
+                newFolderStyle,
+                { flexDirection: "row", alignItems: "center" },
+              ]}
+            >
+              <View className="mr-4 bg-light rounded-2xl px-5 py-2">
+                <Text className="font-poppins-semibold text-dark">
+                  New Folder
+                </Text>
+              </View>
+              <IconButton variant="elevated" className="p-7"
+                onPress={() => {
+                  sheetRef.current?.expand()
+                  toggleMenu();
+                }}>
+                <FolderIcon size={24} color="#FF7043" />
+              </IconButton>
+            </Animated.View>
+          </View>
 
-					<View className="px-5 pt-4 pb-8 flex-row items-center gap-4">
+          <View className="px-5 pt-4 pb-8 flex-row items-center gap-4">
 
-						<View className="flex-1">
-							<Input
-								type="search"
-								LeftIcon={MagnifyingGlassIcon}
+            <View className="flex-1">
+              <Input
+                type="search"
+                LeftIcon={MagnifyingGlassIcon}
                 value={searchValue}
                 onChangeText={setSearchValue}
-								placeholder="Search"
+                placeholder="Search"
                 className="rounded-full py-3 px-6 shadow-md"
-							/>
-						</View>
+              />
+            </View>
 
 
-						<IconButton
-							onPress={toggleMenu}
-							className="h-16 w-16 bg-brand rounded-full shadow-md   items-center justify-center"
-						>
-							<Animated.View style={fabIconStyle}>
-								<PlusIcon size={32} color='#fff' weight="regular" />
-							</Animated.View>
-						</IconButton>
-					</View>
-				</Animated.View>
+            <IconButton
+              onPress={toggleMenu}
+              className="h-16 w-16 bg-brand rounded-full shadow-md   items-center justify-center"
+            >
+              <Animated.View style={fabIconStyle}>
+                <PlusIcon size={32} color='#fff' weight="regular" />
+              </Animated.View>
+            </IconButton>
+          </View>
+        </Animated.View>
         <View style={{ zIndex: 100, position: 'absolute', width: '100%', height: '100%', pointerEvents: 'box-none', bottom: 0 }}>
-        <ActionSheet
-        ref={sheetRef} 
-        title="Create new folder"
-        snapPoints={['50%']} 
-        >
-        <Text>New Folder</Text> 
+          <ActionSheet
+            ref={sheetRef}
+            title="Create new folder"
+            snapPoints={['50%']}
+          >
+            <Text>New Folder</Text>
 
-      </ActionSheet> 
+          </ActionSheet>
         </View>
-      
-			</View>
-      
-		</TouchableWithoutFeedback>
-	);
+
+      </View>
+
+    </TouchableWithoutFeedback>
+  );
 }

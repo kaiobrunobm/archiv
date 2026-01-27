@@ -69,7 +69,7 @@ export type Note = {
 export type ToastVariant = 'default' | 'success' | 'danger';
 
 export interface ToastProps extends ViewProps, VariantProps<typeof toastVariants> {
-  title: string;
+  title?: string;
   description?: string;
   onClose?: () => void;
 }
