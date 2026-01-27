@@ -52,14 +52,14 @@ export default function WelcomeScreen() {
       action: () => navigation.push('/credentialsSignup'),
     },
   ];
-  
+
   return (
-    <SafeAreaView className="flex-1 bg-light px-5" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom}}>
+    <SafeAreaView className="flex-1 bg-light px-5" style={{ paddingTop: insets.top + 24, paddingBottom: insets.bottom }}>
       <View className="flex-1 flex-col justify-between">
-        
+
         <View className='gap-5'>
 
-          <MainLogo/>
+          <MainLogo />
 
           <View>
 
@@ -73,16 +73,16 @@ export default function WelcomeScreen() {
               </Text>
             </View>
 
-          <Text className="text-sutle font-poppins">
-            {TEXTS.SUBTITLE}
-          </Text>
+            <Text className="text-sutle font-poppins">
+              {TEXTS.SUBTITLE}
+            </Text>
 
-        </View>
-      
+          </View>
+
         </View>
 
         <View className="w-full gap-3">
-        {AUTH_OPTIONS.map((option) => (
+          {AUTH_OPTIONS.map((option) => (
             <Button
               key={option.id}
               variant={option.variant}
@@ -97,12 +97,12 @@ export default function WelcomeScreen() {
         <View className="items-center gap-10">
 
           <Text className="text-center text-lightSutle text-xs font-poppins">
-          {TEXTS.LEGAL}
+            {TEXTS.LEGAL}
           </Text>
 
           <View className="flex-row items-center">
             <Text className="text-lightSutle text-sm font-poppins">{TEXTS.LOGIN_PROMPT}</Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigation.replace('/login')}
               accessibilityRole="button"
               accessibilityLabel="Go to Login"

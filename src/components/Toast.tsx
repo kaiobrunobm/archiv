@@ -76,7 +76,6 @@ const DISMISS_THRESHOLD = -40;
 export function Toast({
   className,
   variant = 'default',
-
   title,
   description,
   onClose,

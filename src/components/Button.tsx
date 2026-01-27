@@ -1,25 +1,24 @@
-import React, { ComponentProps } from 'react'
-import { Text, View, ActivityIndicator } from 'react-native'
-import { tv, type VariantProps, compundVariants } from 'tailwind-variants'
+import React from 'react'
+import { Text, ActivityIndicator } from 'react-native'
+import { tv } from 'tailwind-variants'
 import { twMerge } from 'tailwind-merge'
-import { IconProps, Icon } from 'phosphor-react-native'
 import { ScaleButton } from '@/src/components/ScaleButton'
 import { ButtonProps } from '@/src/types/types'
 
-const buttonVariants = tv({
+export const buttonVariants = tv({
   base: 'flex-row items-center justify-center rounded-2xl border border-transparent',
   variants: {
     variant: {
 
-      brand: 'bg-brand border-brand', 
-      
-      apple: 'bg-dark border-dark',
-      
-      google: 'bg-surface-light border-border-light', 
-      
-      ghost: 'bg-transparent border-transparent justify-start px-0 active:bg-brand/5', 
+      brand: 'bg-brand border-brand',
 
-      drawer:'border-transparent justify-start items-center px-0 active:bg-brand/5'
+      apple: 'bg-dark border-dark',
+
+      google: 'bg-surface-light border-border-light',
+
+      ghost: 'bg-transparent border-transparent justify-start px-0 active:bg-brand/5',
+
+      drawer: 'border-transparent justify-start items-center px-0 active:bg-brand/5'
     },
     size: {
       default: 'py-5 px-6 gap-3',
@@ -28,7 +27,11 @@ const buttonVariants = tv({
     disabled: {
       true: 'opacity-50',
       false: 'opacity-100',
-    }, 
+    },
+    active: {
+      true: '',
+      false: '',
+    }
   },
   slots: {
     text: 'text-base font-poppins-semibold',
@@ -40,7 +43,7 @@ const buttonVariants = tv({
       variant: 'drawer',
       active: true,
       class: 'bg-brand/10',
-    }, 
+    },
   ],
 
   defaultVariants: {
@@ -49,9 +52,6 @@ const buttonVariants = tv({
     disabled: false,
   },
 })
-
-type IconComponent = React.ComponentType<IconProps>
-
 
 export function Button({
   className,
@@ -75,7 +75,7 @@ export function Button({
         return '#050A10'
       case 'ghost':
         return '#FF7043'
-      case 'drawer': 
+      case 'drawer':
         return '#050A10'
       default:
         return '#F0EFF4'
@@ -84,7 +84,7 @@ export function Button({
 
   const contentColor = getContentColor()
   const getTextColorClass = () => {
-     switch (variant) {
+    switch (variant) {
       case 'brand':
       case 'apple': return 'text-[#F0EFF4]'
       case 'google': return 'text-[#050A10]'
@@ -106,9 +106,9 @@ export function Button({
       ) : (
         <>
           {Icon && (
-            <Icon 
-              size={24} 
-              color={contentColor} 
+            <Icon
+              size={24}
+              color={contentColor}
               weight={active && variant === 'drawer' ? 'fill' : 'regular'}
             />
           )}

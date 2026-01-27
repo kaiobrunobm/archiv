@@ -17,7 +17,6 @@ import Input from '@/src/components/Input';
 import MainLogo from '@/src/components/MainLogo';
 import { Toast } from '@/src/components/Toast'
 import { Keyboard } from 'react-native';
-import { toastVariants } from '@/src/components/Toast';
 import { ToastVariant } from '@/src/types/types';
 
 
@@ -52,7 +51,7 @@ export default function LoginScreen() {
   const [onError, setOnError] = useState(false);
 
 
-  const [showToast, setShowToast] = useState(true);
+  const [showToast, setShowToast] = useState(false);
   const [toastType, setToastType] = useState<ToastVariant>('default')
   const [toastMessages, setTostMessages] = useState<toastProps>();
 
@@ -186,44 +185,13 @@ export default function LoginScreen() {
                 </Text>
               </TouchableOpacity>
 
-              <Button 
-                variant="brand" 
+              <Button
+                variant="brand"
                 disabled={isLoading}
-                loading={isLoading}
                 onPress={handleLogin}
               >
-                {TEXTS.BTN_LOGIN} 
+                {TEXTS.BTN_LOGIN}
               </Button>
-          </View> 
-
-              <View className="flex-row items-center">
-                <View className="flex-1 h-[1px] bg-border-light" />
-                  <Text className="mx-4 text-lightSutle font-poppins text-xs uppercase tracking-wider">
-                    {TEXTS.DIVIDER_TEXT}
-                  </Text>
-                <View className="flex-1 h-[1px] bg-border-light" />
-              </View>
-            
-              <View className="flex-row  w-full gap-4 justify-center items-center">
-
-                  <Button 
-                    variant="apple" 
-                    icon={AppleLogo} 
-                    onPress={() => console.log('Apple Login')}
-                  >
-                    {TEXTS.BTN_APPLE}
-                  </Button>
-
-                  <Button 
-                    variant="google" 
-                    icon={GoogleLogo} 
-                    onPress={() => console.log('Google Login')}
-                  >
-                  {TEXTS.BTN_GOOGLE}
-                  </Button>
-
-              </View>
-
             </View>
 
             <View className="flex-row items-center">
@@ -238,17 +206,19 @@ export default function LoginScreen() {
 
               <Button
                 variant="apple"
-                label={TEXTS.BTN_APPLE}
-                icon={<AppleLogo />}
+                icon={AppleLogo}
                 onPress={() => console.log('Apple Login')}
-              />
+              >
+                {TEXTS.BTN_APPLE}
+              </Button>
 
               <Button
                 variant="google"
-                label={TEXTS.BTN_GOOGLE}
-                icon={<GoogleLogo />}
+                icon={GoogleLogo}
                 onPress={() => console.log('Google Login')}
-              />
+              >
+                {TEXTS.BTN_GOOGLE}
+              </Button>
 
             </View>
 
@@ -273,11 +243,11 @@ export default function LoginScreen() {
               description={toastMessages?.descripion}
               variant={toastType}
               onClose={() => setShowToast(false)} />
-          )
-          }
+          )}
 
         </View>
+
       </TouchableWithoutFeedback>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }

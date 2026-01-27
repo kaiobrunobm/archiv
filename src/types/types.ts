@@ -1,20 +1,24 @@
 import { IconProps } from 'phosphor-react-native';
-import React, { ReactNode } from 'react';
+import React, { ComponentProps } from 'react';
 import { PressableProps, TextInputProps, ViewProps } from 'react-native';
-import { type VariantProps } from 'class-variance-authority'
+import { VariantProps } from 'tailwind-variants';
 import { toastVariants } from '@/src/components/Toast';
+import { ScaleButton } from '@/src/components/ScaleButton';
+import { buttonVariants } from '@/src/components/Button';
 
+
+
+type IconComponent = React.ComponentType<IconProps>
 
 export interface ButtonProps
-  extends Omit<ComponentProps<typeof ScaleButton>, 'style' | 'children'>,
-    VariantProps<typeof buttonVariants> {
+  extends Omit<ComponentProps<typeof ScaleButton>, 'style' | 'children' | 'disabled'>,
+  VariantProps<typeof buttonVariants> {
   children: string
   icon?: IconComponent
-  isActive?: boolean
+  active?: boolean
   isLoading?: boolean
   className?: string
 }
-
 
 export interface ScaleButtonProps extends PressableProps {
   pressEffect?: 'scale' | 'none';
@@ -24,7 +28,7 @@ export interface AuthOption {
   id: string;
   label: string;
   variant: 'apple' | 'google' | 'brand';
-  icon: React.ReactNode;
+  icon: IconComponent;
   action: () => void;
 }
 
