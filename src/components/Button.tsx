@@ -1,9 +1,10 @@
 import React, { ComponentProps } from 'react'
 import { Text, View, ActivityIndicator } from 'react-native'
-import { tv, type VariantProps } from 'tailwind-variants'
+import { tv, type VariantProps, compundVariants } from 'tailwind-variants'
 import { twMerge } from 'tailwind-merge'
 import { IconProps, Icon } from 'phosphor-react-native'
 import { ScaleButton } from '@/src/components/ScaleButton'
+import { ButtonProps } from '@/src/types/types'
 
 const buttonVariants = tv({
   base: 'flex-row items-center justify-center rounded-2xl border border-transparent',
@@ -16,7 +17,9 @@ const buttonVariants = tv({
       
       google: 'bg-surface-light border-border-light', 
       
-      ghost: 'bg-transparent border-transparent justify-start px-0', 
+      ghost: 'bg-transparent border-transparent justify-start px-0 active:bg-brand/5', 
+
+      drawer:'border-transparent justify-start items-center px-0 active:bg-brand/5'
     },
     size: {
       default: 'py-5 px-6 gap-3',
@@ -25,13 +28,20 @@ const buttonVariants = tv({
     disabled: {
       true: 'opacity-50',
       false: 'opacity-100',
-    }
+    }, 
   },
   slots: {
     text: 'text-base font-poppins-semibold',
     icon: '',
-
   },
+
+  compoundVariants: [
+    {
+      variant: 'drawer',
+      active: true,
+      class: 'bg-brand/10',
+    }, 
+  ],
 
   defaultVariants: {
     variant: 'brand',
@@ -42,15 +52,6 @@ const buttonVariants = tv({
 
 type IconComponent = React.ComponentType<IconProps>
 
-export interface ButtonProps
-  extends Omit<ComponentProps<typeof ScaleButton>, 'style' | 'children'>,
-    VariantProps<typeof buttonVariants> {
-  children: string
-  icon?: IconComponent
-
-  isLoading?: boolean
-  className?: string
-}
 
 export function Button({
   className,
@@ -58,11 +59,12 @@ export function Button({
   size,
   disabled,
   isLoading,
+  active,
   children,
   icon: Icon,
   ...props
 }: ButtonProps) {
-  const { base, text } = buttonVariants({ variant, size, disabled: disabled || isLoading })
+  const { base, text } = buttonVariants({ variant, size, disabled: disabled || isLoading, active })
 
   const getContentColor = () => {
     switch (variant) {
@@ -73,6 +75,8 @@ export function Button({
         return '#050A10'
       case 'ghost':
         return '#FF7043'
+      case 'drawer': 
+        return '#050A10'
       default:
         return '#F0EFF4'
     }
@@ -85,6 +89,7 @@ export function Button({
       case 'apple': return 'text-[#F0EFF4]'
       case 'google': return 'text-[#050A10]'
       case 'ghost': return 'text-[#FF7043]'
+      case 'drawer': return 'text-[#050A10]'
       default: return 'text-[#F0EFF4]'
     }
   }
@@ -92,7 +97,6 @@ export function Button({
   return (
     <ScaleButton
       disabled={disabled || isLoading}
-      pressEffect={variant === 'ghost' ? 'none' : 'scale'}
       style={undefined}
       className={twMerge(base(), className)}
       {...props}
@@ -105,7 +109,7 @@ export function Button({
             <Icon 
               size={24} 
               color={contentColor} 
-              weight={variant === 'google' ? 'bold' : 'regular'}
+              weight={active && variant === 'drawer' ? 'fill' : 'regular'}
             />
           )}
 
