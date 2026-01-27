@@ -10,16 +10,16 @@ const buttonVariants = tv({
   variants: {
     variant: {
 
-      brand: 'bg-[#FF7043] border-[#FF7043]', 
+      brand: 'bg-brand border-brand', 
       
-      apple: 'bg-[#050A10] border-[#050A10]',
+      apple: 'bg-dark border-dark',
       
-      google: 'bg-[#F6F5F8] border-[#F6F5F8]', 
+      google: 'bg-surface-light border-border-light', 
       
       ghost: 'bg-transparent border-transparent justify-start px-0', 
     },
     size: {
-      default: 'h-14 px-6 gap-3',
+      default: 'py-5 px-6 gap-3',
       sm: 'h-10 px-3 gap-2',
     },
     disabled: {
@@ -28,7 +28,7 @@ const buttonVariants = tv({
     }
   },
   slots: {
-    text: 'font-semibold text-base',
+    text: 'text-base font-poppins-semibold',
     icon: '',
 
   },
