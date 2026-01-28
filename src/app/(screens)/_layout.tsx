@@ -20,7 +20,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '@/global.css';
 import NotesProvider from '@/src/utils/NotesProvider';
 import { Stack } from 'expo-router';
-import { StatusBar, View, Text } from 'react-native';
+import { StatusBar } from 'react-native';
 
 
 SplashScreen.preventAutoHideAsync();

@@ -6,8 +6,6 @@ import { toastVariants } from '@/src/components/Toast';
 import { ScaleButton } from '@/src/components/ScaleButton';
 import { buttonVariants } from '@/src/components/Button';
 
-
-
 type IconComponent = React.ComponentType<IconProps>
 
 export interface ButtonProps
@@ -76,3 +74,4 @@ export interface ToastProps extends ViewProps, VariantProps<typeof toastVariants
   description?: string;
   onClose?: () => void;
 }
+

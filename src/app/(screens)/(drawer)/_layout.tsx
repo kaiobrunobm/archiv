@@ -1,15 +1,17 @@
 import CustomDrawerContent from '@/src/components/CustomDrawer';
+import { DrawerHeader } from '@/src/components/DrawerHeader';
+import { useRoute } from '@react-navigation/native';
 import { Drawer } from 'expo-router/drawer';
-import { Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function DrawerLayout() {
+  const navigation = useRoute();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
         drawerContent={(props) => <CustomDrawerContent {...props} />}
         screenOptions={{
-          header: (props) => <View {...props}><Text>Hello</Text></View>,
+          header: (props) => <DrawerHeader {...props} />,
           headerTransparent: false,
           headerStyle: { backgroundColor: 'transparent' },
           drawerStyle: {

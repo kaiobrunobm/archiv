@@ -135,29 +135,12 @@ export default function DashboardScreen() {
 
   return (
     <TouchableWithoutFeedback className="flex-1 bg-light" onPress={Keyboard.dismiss}>
-      <View className="h-full" style={{ paddingTop: insets.top }}>
+      <View className="h-full" >
         <ScrollView
           contentContainerStyle={{ paddingBottom: 50 + insets.bottom }}
           showsVerticalScrollIndicator={false}
         >
           <View className="px-5 pt-2 mb-4 mt-4">
-
-            <View className="flex-row justify-between items-center mb-6">
-              <IconButton variant="elevated" className="p-8" onPress={toggleDrawer}>
-                <DotsThreeIcon size={28} color="#606062" weight="bold" />
-              </IconButton>
-
-              <ScaleButton className="h-16 w-16 rounded-full p-0.5 overflow-hidden border-2 border-brand " onPress={() => route.push('/settings')}>
-                <Image
-                  source={{
-                    uri: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80",
-                  }}
-                  className="h-full w-full rounded-full"
-                />
-              </ScaleButton>
-
-
-            </View>
 
             <Text className="text-3xl font-roboto-semibold text-dark">
               All Notes
