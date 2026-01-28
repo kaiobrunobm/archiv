@@ -20,21 +20,21 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import '@/global.css';
 import NotesProvider from '@/src/utils/NotesProvider';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'react-native';
+import { StatusBar, View, Text } from 'react-native';
 
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-  Poppins: Poppins_400Regular,
-  'Poppins-Medium': Poppins_500Medium,
-  'Poppins-SemiBold': Poppins_600SemiBold,
-  Roboto: RobotoCondensed_400Regular,
-  'Roboto-Medium': RobotoCondensed_500Medium,
-  'Roboto-Semibold': RobotoCondensed_600SemiBold,
-  'Roboto-Bold': RobotoCondensed_700Bold,
-  BBHSans: BBHSansBartle_400Regular
+    Poppins: Poppins_400Regular,
+    'Poppins-Medium': Poppins_500Medium,
+    'Poppins-SemiBold': Poppins_600SemiBold,
+    Roboto: RobotoCondensed_400Regular,
+    'Roboto-Medium': RobotoCondensed_500Medium,
+    'Roboto-Semibold': RobotoCondensed_600SemiBold,
+    'Roboto-Bold': RobotoCondensed_700Bold,
+    BBHSans: BBHSansBartle_400Regular
   });
 
 
@@ -47,26 +47,27 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-   <GestureHandlerRootView className='flex-1'>
-      <NotesProvider>      
+    <GestureHandlerRootView className='flex-1'>
+      <NotesProvider>
         <Stack screenOptions={{ headerShown: false }} initialRouteName='index'>
-          
-          <Stack.Screen 
-            name="(drawer)" 
-            options={{ 
-              gestureEnabled: false, 
+
+          <Stack.Screen
+            name="(drawer)"
+            options={{
+              gestureEnabled: false,
               animation: 'slide_from_bottom'
-            }} 
+            }}
           />
           <Stack.Screen name="index" />
           <Stack.Screen name="login" />
           <Stack.Screen name="settings" options={{
-            gestureEnabled: false, 
+            gestureEnabled: false,
             animation: 'slide_from_bottom'
           }} />
-        </Stack> 
+
+        </Stack>
       </NotesProvider>
-      <StatusBar barStyle='dark-content'/>
-    </GestureHandlerRootView> 
-     )
+      <StatusBar barStyle='dark-content' />
+    </GestureHandlerRootView>
+  )
 }

@@ -12,7 +12,7 @@ import {
 import { useRef } from 'react';
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {Button} from './Button';
+import { Button } from './Button';
 import MainLogo from './MainLogo';
 
 export default function CustomDrawerContent(props: any) {
@@ -26,55 +26,57 @@ export default function CustomDrawerContent(props: any) {
   return (
     <View className="flex-1 bg-light p-5" style={{ paddingTop: top }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0 }}>
-        
+
         <View className="mt-3 mb-8">
-          <MainLogo/>
+          <MainLogo />
         </View>
 
-        <Button 
-            variant='drawer'
-            icon={HouseIcon} 
-            active={isActive('/mainDashboard')}
-            onPress={() => router.push('/mainDashboard')}
-          >Notes</Button>
+        <Button
+          variant='drawer'
+          icon={HouseIcon}
+          active={isActive('/mainDashboard')}
+          onPress={() => router.push('/mainDashboard')}
+        >Notes</Button>
 
         <View className="gap-2 mt-6">
-          
+
           <Text className='font-poppins text-base text-lightSutle'>Folders</Text>
 
-          <Button 
+          <Button
             variant='drawer'
-            icon={FolderIcon} 
+            icon={FolderIcon}
             active={isActive('/draft')}
-            onPress={() => router.push('/draft')} 
+            onPress={() => router.push('/draft')}
           >Draft</Button>
 
           <Button
             variant='ghost'
             icon={PlusIcon}
             onPress={() => sheetRef.current?.expand()}
-          >Create new folder</Button>>
-          
+          >
+            Create new folder
+          </Button>
+
         </View>
 
-        <View className='w-full bg-border-light/40 h-[1px] rounded-full my-3'/>
+        <View className='w-full bg-border-light/40 h-[1px] rounded-full my-3' />
         <View>
-         <Button 
-            icon={TrashIcon} 
+          <Button
+            icon={TrashIcon}
             variant='drawer'
             active={isActive('/trashDashboard')}
-            onPress={() => router.push('/trashDashboard')} 
+            onPress={() => router.push('/trashDashboard')}
           >Trash</Button>
 
-          <Button 
+          <Button
             variant='drawer'
-            icon={ArchiveIcon} 
+            icon={ArchiveIcon}
             active={isActive('/archiveDashboard')}
-            onPress={() => router.push('/archiveDashboard')} 
+            onPress={() => router.push('/archiveDashboard')}
           >Archive</Button>
 
         </View>
-       
+
       </DrawerContentScrollView>
 
     </View>
