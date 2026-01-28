@@ -10,7 +10,7 @@ export function DrawerHeader({ navigation }: DrawerHeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View className="flex-row justify-between items-center px-5 z-50" style={{ paddingTop: insets.top + 24 }}>
+    <View className="flex-row justify-between items-center px-5" style={{ paddingTop: insets.top + 24 }}>
       <IconButton variant="elevated" className="p-8" onPress={() => navigation.toggleDrawer()}>
         <DotsThreeIcon size={28} color="#606062" weight="bold" />
       </IconButton>
