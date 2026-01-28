@@ -1,32 +1,40 @@
 import CustomDrawerContent from '@/src/components/CustomDrawer';
 import { DrawerHeader } from '@/src/components/DrawerHeader';
-import { useRoute } from '@react-navigation/native';
+import { SearchProvider } from '@/src/context/SearchContext';
+import { SearchComponent } from '@/src/components/SearchComponent';
 import { Drawer } from 'expo-router/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { View } from 'react-native';
 
 export default function DrawerLayout() {
-  const navigation = useRoute();
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        drawerContent={(props) => <CustomDrawerContent {...props} />}
-        screenOptions={{
-          header: (props) => <DrawerHeader {...props} />,
-          headerTransparent: false,
-          headerStyle: { backgroundColor: 'transparent' },
-          drawerStyle: {
-            width: '85%',
-          },
-          swipeEdgeWidth: 100,
-        }}
-      >
+      <SearchProvider>
+        <View className='flex-1'>
+          <Drawer
+            drawerContent={(props) => <CustomDrawerContent {...props} />}
+            screenOptions={{
+              header: (props) => <DrawerHeader {...props} />,
+              headerTransparent: false,
+              headerStyle: { backgroundColor: 'transparent' },
+              drawerStyle: {
+                width: '85%',
+              },
+              swipeEdgeWidth: 100,
+            }}
+          >
 
-        <Drawer.Screen name="mainDashboard" />
-        <Drawer.Screen name="draft" />
-        <Drawer.Screen name="trashDashboard" />
-        <Drawer.Screen name="folderDashboard" />
+            <Drawer.Screen name="mainDashboard" />
+            <Drawer.Screen name="draft" />
+            <Drawer.Screen name="trashDashboard" />
+            <Drawer.Screen name="folderDashboard" />
 
-      </Drawer>
+          </Drawer>
+
+          <SearchComponent />
+
+        </View>
+      </SearchProvider>
     </GestureHandlerRootView>
   );
 }

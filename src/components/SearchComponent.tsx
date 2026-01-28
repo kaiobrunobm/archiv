@@ -1,25 +1,23 @@
-import { Animated, Easing, Keyboard, Text, TouchableWithoutFeedback, View } from "react-native"
+import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native"
+import Animated from "react-native-reanimated"
 import { IconButton } from "@/src/components/IconButton"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { LinearGradient } from "expo-linear-gradient"
 import Input from "@/src/components/Input"
-import ActionSheet from "@/src/components/ActionSheet"
-import { useEffect, useRef, useState } from "react"
-import { interpolate, useAnimatedKeyboard, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated"
-import { DrawerActions } from "@react-navigation/native"
-import { useNavigation, useRouter } from "expo-router"
-import BottomSheet from "@gorhom/bottom-sheet"
+import { useEffect, useState } from "react"
+import { interpolate, useAnimatedKeyboard, useAnimatedStyle, useSharedValue, withTiming, Easing } from "react-native-reanimated"
+import { useRouter } from "expo-router"
 import { FolderIcon, MagnifyingGlassIcon, NoteIcon, PlusIcon } from "phosphor-react-native"
+import { useSearch } from "@/src/context/SearchContext"
 
 
-export function DashboardsFooter() {
-
-  const [searchValue, setSearchValue] = useState('')
+export function SearchComponent() {
+  const { searchValue, setSearchValue } = useSearch();
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const sheetRef = useRef<BottomSheet>(null);
+
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const isFloatButtonOpen = useSharedValue(0);
-  const navigator = useNavigation();
   const route = useRouter();
 
   const keyboard = useAnimatedKeyboard();
@@ -44,12 +42,6 @@ export function DashboardsFooter() {
     };
   }, []);
 
-
-  const toggleDrawer = () => {
-    navigator.dispatch(DrawerActions.openDrawer());
-  };
-
-
   const toggleMenu = () => {
     const target = isFloatButtonOpen.value === 0 ? 1 : 0;
 
@@ -59,7 +51,9 @@ export function DashboardsFooter() {
     };
 
     isFloatButtonOpen.value = withTiming(target, config);
+    setMenuOpen(!menuOpen)
   };
+
 
   const fabIconStyle = useAnimatedStyle(() => {
     return {
@@ -72,24 +66,19 @@ export function DashboardsFooter() {
   const backdropStyle = useAnimatedStyle(() => {
     return {
       opacity: interpolate(isFloatButtonOpen.value, [0, 1], [0, 0.3]),
-      pointerEvents: isFloatButtonOpen.value > 0.1 ? "auto" : "none",
     };
   });
 
-  const useMenuItemStyle = (index: number) => {
-    return useAnimatedStyle(() => {
-
-      const translateY = interpolate(isFloatButtonOpen.value, [0, 1], [15, 0]);
-
+  const menuItemStyle = (delay: number) =>
+    useAnimatedStyle(() => {
       const opacity = interpolate(isFloatButtonOpen.value, [0, 1], [0, 1]);
+      const translateY = interpolate(isFloatButtonOpen.value, [0, 1], [15, 0]);
 
       return {
         opacity,
         transform: [{ translateY }],
-        pointerEvents: isFloatButtonOpen.value > 0.8 ? "auto" : "none",
       };
     });
-  };
 
   const translateStyle = useAnimatedStyle(() => {
     return {
@@ -97,14 +86,17 @@ export function DashboardsFooter() {
     };
   });
 
-  const newNoteStyle = useMenuItemStyle(1);
-  const newFolderStyle = useMenuItemStyle(0);
+  const newNoteStyle = menuItemStyle(1);
+  const newFolderStyle = menuItemStyle(0);
   const insets = useSafeAreaInsets();
 
   return (
     <>
-      <TouchableWithoutFeedback onPress={toggleMenu}>
+      <TouchableWithoutFeedback
+        disabled={!menuOpen}
+        onPress={toggleMenu}>
         <Animated.View
+          pointerEvents={menuOpen ? "auto" : "none"}
           style={[
             {
               position: "absolute",
@@ -113,7 +105,7 @@ export function DashboardsFooter() {
               right: 0,
               bottom: 0,
               backgroundColor: "#050A10",
-              zIndex: 40,
+              zIndex: 50,
             },
             backdropStyle,
           ]}
@@ -169,7 +161,6 @@ export function DashboardsFooter() {
             </View>
             <IconButton variant="elevated" className="p-7"
               onPress={() => {
-                sheetRef.current?.expand()
                 toggleMenu();
               }}>
               <FolderIcon size={24} color="#FF7043" />
@@ -201,17 +192,6 @@ export function DashboardsFooter() {
           </IconButton>
         </View>
       </Animated.View>
-      <View style={{ zIndex: 100, position: 'absolute', width: '100%', height: '100%', pointerEvents: 'box-none', bottom: 0 }}>
-        <ActionSheet
-          ref={sheetRef}
-          title="Create new folder"
-          snapPoints={['50%']}
-        >
-          <Text>New Folder</Text>
-
-        </ActionSheet>
-      </View>
-
     </>
   )
 };

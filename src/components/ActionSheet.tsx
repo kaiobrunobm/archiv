@@ -1,6 +1,6 @@
-import { cn } from '@/src/utils/utils'; // Using your existing utility
+import { cn } from '@/src/utils/utils';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
-import React, { forwardRef, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -9,20 +9,24 @@ interface ActionSheetProps {
   title?: string;
   snapPoints?: string[];
   onClose?: () => void;
-  className?: string; 
+  className?: string;
+  sheetRef?: React.RefObject<BottomSheet>;
 }
 
-const ActionSheet = forwardRef<BottomSheet, ActionSheetProps>(({ 
-  children, 
+const ActionSheet = ({
+  children,
   title,
-  snapPoints = ['50%'], 
+  snapPoints = ['50%'],
   onClose,
-  className
-}, ref) => {
+  className,
+  sheetRef
+
+}: ActionSheetProps) => {
 
   const renderBackdrop = useCallback(
     (props: any) => (
       <BottomSheetBackdrop
+
         {...props}
         disappearsOnIndex={-1}
         appearsOnIndex={0}
@@ -34,31 +38,32 @@ const ActionSheet = forwardRef<BottomSheet, ActionSheetProps>(({
 
   return (
     <BottomSheet
-      ref={ref}
+      ref={sheetRef} // Pass it manually to the library
       index={-1}
       snapPoints={snapPoints}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
-      onClose={onClose} 
+      onClose={onClose}
       backgroundStyle={{ backgroundColor: '#F0EFF4' }}
-      handleIndicatorStyle={{ backgroundColor: '#908F92', borderRadius: 999 }} 
+      handleIndicatorStyle={{ backgroundColor: '#908F92', borderRadius: 999 }}
     >
       <BottomSheetView style={styles.contentContainer}>
         <SafeAreaView edges={['bottom', 'left', 'right']} className={cn("flex-1 px-5 pt-2 pb-8", className)}>
-          
+
           {title && (
-              <Text className="text-3xl font-roboto-semibold text-dark text-center mt-3">
-                {title}
-              </Text>
+            <Text className="text-3xl font-roboto-semibold text-dark text-center mt-3">
+              {title}
+
+            </Text>
           )}
           <View className="flex-1 gap-4">
-              {children}
+            {children}
           </View>
         </SafeAreaView>
       </BottomSheetView>
     </BottomSheet>
   );
-});
+};
 
 const styles = StyleSheet.create({
   contentContainer: {

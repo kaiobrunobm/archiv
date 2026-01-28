@@ -26,7 +26,7 @@ export default function WelcomeScreen() {
   const insets = useSafeAreaInsets();
 
   const handleAuth = (provider: string) => {
-    console.log(`Authenticating with ${provider}`);
+    navigation.push('/mainDashboard')
   };
 
   const AUTH_OPTIONS: AuthOption[] = [
